@@ -6,15 +6,27 @@ export default new ResourceManager().load({
   maxUpdateCycles: 3600,
   tabs: [
     {
-      title: 'Gold',
-      primary: 'Gold',
+      title: 'Gold & stuff',
       items: [
-        {items: ['Gold']},
-        {items: ['Gold Mine', 'Max Gold Mines']},
-        {primary: 'Gold Prospector'},
+        {
+          title: 'Gold',
+          primary: 'Gold',
+          items: [
+            {items: ['Gold']},
+            {items: ['Gold Mine', 'Max Gold Mines']},
+            {primary: 'Gold Prospector'},
+        ]},
+        {title: 'Empty Group', items: []},
+        {title: 'Fecal Matter', items: [{primary: 'Poop'}]},
     ]},
-    {title: 'Empty Group', items: []},
-    {title: 'Fecal Matter', items: [{primary: 'Poop'}]},
+    {
+      title: 'Remix',
+      primary: 'Poop',
+      items: [
+        {title: 'Feces', primary: 'Poop', items: []},
+        {title: 'Not Feces', primary: 'Gold Mine', items: [{primary: 'Gold Mine'}]},
+    ]},
+    {title: 'Surprise third tab!', primary: 'Gold Prospector'},
   ],
   growths: {
     '+100%': {

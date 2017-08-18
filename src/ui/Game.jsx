@@ -1,14 +1,14 @@
 import React from "react";
-import ResourceBundle from "./ResourceBundle";
-import ResourceSmall from "./ResourceSmall";
 import DebugInfo from "./DebugInfo";
+import Screen from "./Screen";
+import Tab from "./Tab";
 
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
-    
+
     document.title = this.props.resourceManager.name;
-    
+    this.tick = this.tick.bind(this);
     this.state = {
       lastUpdate: new Date(),
       tab: 0,
@@ -18,7 +18,7 @@ export default class Game extends React.Component {
 
   componentDidMount() {
     const timerId = setInterval(
-      () => this.tick(),
+      this.tick,
       this.props.resourceManager.updateGranularity * 1000
     );
     this.setState({timerId});
@@ -33,33 +33,26 @@ export default class Game extends React.Component {
     this.setState({lastUpdate: new Date()});
   }
 
-  setTab(tab) {
-    this.setState({tab});
-  }
-
   render() {
-    const group = this.props.resourceManager.tabs[this.state.tab];
+    const tab = this.props.resourceManager.tabs[this.state.tab];
     
     return <div id='game'>
       <div id='title'>{this.props.resourceManager.name}</div>
-      <div id='groups'>
+      
+      <div id='tabBar'>
         {this.props.resourceManager.tabs.map((tab, i) =>
-          <ResourceSmall
+          <Tab
             key={"tab_" + i}
-            name={tab.title}
-            resource={tab.primary}
+            tab={tab}
             selected={i == this.state.tab}
-            onClick={() => this.setTab(i)} />
+            onClick={() => this.setState({tab: i})} />
         )}
       </div>
-      <div id='main'>
-        {group && group.items.map((bundle, i) =>
-          <ResourceBundle
-            key={"bundle_" + i}
-            bundle={bundle}
-            onUpdate={() => this.tick()} />
-        )}
-      </div>
+      
+      <Screen
+        tab={tab}
+        onUpdate={this.tick} />
+      
       {this.state.debug &&
         <DebugInfo
           lastUpdate={this.state.lastUpdate}

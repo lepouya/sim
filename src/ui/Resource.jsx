@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class ResourceLarge extends React.Component {
+export default class Resource extends React.Component {
   constructor(props) {
     super(props);
     
@@ -42,43 +42,43 @@ export default class ResourceLarge extends React.Component {
     return res;
   }
 
-  renderLocked() {
-    if (this.props.resource.unlocked) {
+  renderLocked(resource) {
+    if (resource.unlocked) {
       return null;
     }
-    if (this.props.resource.requirements) {
+    if (resource.requirements) {
       return <div className='locked'>Currently unavaiable; it will be unlocked when all requirements are met</div>;
     } else {
       return <div className='locked'>Currently unavaiable</div>;
     }
   }
 
-  renderCount() {
-    let count = this.renderNumber(this.props.resource.count);
+  renderCount(resource) {
+    let count = this.renderNumber(resource.count);
     let limit = null;
     let rate = null;
     
-    if (this.props.resource.limit) {
-      limit = <span>out of {this.renderNumber(this.props.resource.limit)}</span>;
+    if (resource.limit) {
+      limit = <span>out of {this.renderNumber(resource.limit)}</span>;
     }
-    if (this.props.resource.rate != 0) {
-      rate = <span>({this.renderNumber(this.props.resource.rate, 1, true)} / s)</span>;
+    if (resource.rate != 0) {
+      rate = <span>({this.renderNumber(resource.rate, 1, true)} / s)</span>;
     }
     
     return <div className='count'>You currently own {count} {limit} {rate}</div>;
   }
 
-  renderGenerator() {
+  renderGenerator(resource) {
     let generates = null;
     let consumes = null;
     let and = null;
     let currentRate = null;
     
-    if (this.props.resource.inputRate.length > 0) {
-      consumes = <span>consumes {this.renderRates(this.props.resource.inputRate)}</span>;
+    if (resource.inputRate.length > 0) {
+      consumes = <span>consumes {this.renderRates(resource.inputRate)}</span>;
     }
-    if (this.props.resource.outputRate.length > 0) {
-      generates = <span>generates {this.renderRates(this.props.resource.outputRate)}</span>;
+    if (resource.outputRate.length > 0) {
+      generates = <span>generates {this.renderRates(resource.outputRate)}</span>;
     }
     
     if (!consumes && !generates) {
@@ -87,29 +87,29 @@ export default class ResourceLarge extends React.Component {
       if (consumes && generates) {
         and = <span> and </span>;
       }
-      if (this.props.resource.genRate.length == 0) {
+      if (resource.genRate.length == 0) {
         currentRate = <span>Currently offline</span>;
       } else {
-        currentRate = <span>Current rate is {this.renderRates(this.props.resource.genRate, 1, true)} / s</span>;
+        currentRate = <span>Current rate is {this.renderRates(resource.genRate, 1, true)} / s</span>;
       }
-      return <div className='rate'>Each {this.props.resource.name} {consumes}{and}{generates}; {currentRate}</div>;
+      return <div className='rate'>Each {resource.name} {consumes}{and}{generates}; {currentRate}</div>;
     }
   }
 
-  renderBuyBox() {
-    if (!this.props.resource.price) {
+  renderBuyBox(resource) {
+    if (!resource.price) {
       return null;
     }
     
-    const price = this.props.resource.getBuyPrice();
+    const price = resource.getBuyPrice();
     let text = null;
     let button1 = <button onClick={_ => this.buy()}>Get 1</button>;
     let buttonMax = null;
 
     if (!price) {
-      text = <span>The next {this.props.resource.name} is not available right now</span>;
+      text = <span>The next {resource.name} is not available right now</span>;
       button1 = <button disabled={true}>Buy 1</button>;
-      if (this.props.resource.limit) {
+      if (resource.limit) {
         buttonMax = <button disabled={true}>Buy Max</button>;
       }
     } else if (price.length > 0) {
@@ -118,52 +118,54 @@ export default class ResourceLarge extends React.Component {
         enabled = enabled && (rate.entity.count >= rate.value);
       }
 
-      text = <span>The next {this.props.resource.name} will cost {this.renderRates(price, 0, false, true, true)}</span>;
+      text = <span>The next {resource.name} will cost {this.renderRates(price, 0, false, true, true)}</span>;
       button1 = <button onClick={_ => this.buy(1)} disabled={!enabled}>Buy 1</button>;
-      if (this.props.resource.limit) {
-        buttonMax = <button onClick={_ => this.buy(this.props.resource.limit - this.props.resource.count)} disabled={!enabled}>Buy Max</button>;
+      if (resource.limit) {
+        buttonMax = <button onClick={_ => this.buy(resource.limit - resource.count)} disabled={!enabled}>Buy Max</button>;
       }
     }
     
     return <div className='buy'>{button1}{buttonMax} {text}</div>;
   }
 
-  renderSellBox() {
-    if (!this.props.resource.price || !this.props.resource.sellModifier) {
+  renderSellBox(resource) {
+    if (!resource.price || !resource.sellModifier) {
       return null;
     }
     
-    const price = this.props.resource.getSellPrice();
+    const price = resource.getSellPrice();
     let text = null;
     let button1 = <button onClick={_ => this.sell()}>Destroy 1</button>;
     let buttonAll = null;
     
-    if (!price || (this.props.resource.count == 0)) {
-      text = <span>Cannot sell any {this.props.resource.name} right now</span>;
+    if (!price || (resource.count == 0)) {
+      text = <span>Cannot sell any {resource.name} right now</span>;
       button1 = <button disabled={true}>Sell 1</button>;
       buttonAll = <button disabled={true}>Sell All</button>;
     } else if (price.length > 0) {
-      text = <span>Current {this.props.resource.name} sells for {this.renderRates(price)}</span>;
+      text = <span>Current {resource.name} sells for {this.renderRates(price)}</span>;
       button1 = <button onClick={_ => this.sell(1)}>Sell 1</button>;
-      buttonAll = <button onClick={_ => this.sell(this.props.resource.count)}>Sell All</button>;
+      buttonAll = <button onClick={_ => this.sell(resource.count)}>Sell All</button>;
     }
     
     return <div className='sell'>{button1}{buttonAll} {text}</div>;
   }
 
   render() {
-    if (!this.props.resource || !this.props.resource.visible) {
+    const resource = this.props.resource;
+    if (!resource || !resource.visible) {
       return null;
     }
-    const name = this.props.resource.name.toLowerCase().replace(/[^a-z0-9_]/g, "_");
-    return <div id={"resource_large_" + name} className='resource large'>
-      <div className='name'>{this.props.resource.name}</div>
-      {(this.props.resource.description != '') && <div className='description'>{this.props.resource.description}</div>}
-      {!this.props.resource.unlocked && this.renderLocked()}
-      {this.props.resource.unlocked && this.renderCount()}
-      {this.props.resource.unlocked && this.renderBuyBox()}
-      {this.props.resource.unlocked && this.renderSellBox()}
-      {this.props.resource.unlocked && this.renderGenerator()}
+    
+    const name = resource.name.toLowerCase().replace(/[^a-z0-9_]/g, "_");
+    return <div id={"resource_" + name} className='resource'>
+      <div className='name'>{resource.name}</div>
+      {(resource.description != '') && <div className='description'>{resource.description}</div>}
+      {!resource.unlocked && this.renderLocked(resource)}
+      {resource.unlocked && this.renderCount(resource)}
+      {resource.unlocked && this.renderBuyBox(resource)}
+      {resource.unlocked && this.renderSellBox(resource)}
+      {resource.unlocked && this.renderGenerator(resource)}
     </div>;
   }
 }

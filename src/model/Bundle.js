@@ -12,16 +12,20 @@ export default class Bundle extends Entity {
   get unlocked() {
     if (this.primary) {
       return this.primary.unlocked;
-    } else {
+    } else if (this.items.length > 0) {
       return this.items.findIndex(i => i.unlocked) >= 0;
+    } else {
+      return true;
     }
   }
 
   get visible() {
     if (this.primary) {
       return this.primary.visible;
-    } else {
+    } else if (this.items.length > 0) {
       return this.items.findIndex(i => i.visible) >= 0;
+    } else {
+      return true;
     }
   }
 

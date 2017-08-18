@@ -1,20 +1,20 @@
 import React from "react";
 
-export default class ResourceSmall extends React.Component {
+export default class Group extends React.Component {
   constructor(props) {
     super(props);
 
-    this.updateGroup = this.updateGroup.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
-  updateGroup(e) {
+  onClick(e) {
     e.preventDefault();
     this.props.onClick();
   }
 
   renderNumber(value, digits, plus) {
     const num = value.toFixed(digits);
-  
+
     if ((value < 0.1) && (value > -0.1)) {
       return <span className='zero'>{num}</span>;
     } else if (value > 0) {
@@ -25,11 +25,12 @@ export default class ResourceSmall extends React.Component {
   }
 
   renderCount() {
-    let count = this.renderNumber(this.props.resource.count);
+    const resource = this.props.group.primary;
+    let count = this.renderNumber(resource.count);
     let rate = null, per = null;
-    
-    if (this.props.resource.rate != 0) {
-      rate = this.renderNumber(this.props.resource.rate, 1, true);
+
+    if (resource.rate != 0) {
+      rate = this.renderNumber(resource.rate, 1, true);
       per = <span className='spacer'>/s</span>;
     }
     
@@ -37,12 +38,17 @@ export default class ResourceSmall extends React.Component {
   }
 
   render() {
+    const group = this.props.group;
+    if (!group || !group.visible) {
+      return null;
+    }
+
     return <div
-             id={"resource_small_" + this.props.name.toLowerCase().replace(" ", "_")}
-             className={"resource small" + (this.props.selected ? " active" : "")}>
-      <div className='name'>{this.props.name}</div>
-      {this.props.resource && this.renderCount()}
-      <a onClick={this.updateGroup}><span></span></a>
+            id={"group_" + group.title.toLowerCase().replace(" ", "_")}
+            className={"clickable group" + (this.props.selected ? " active" : "")}>
+      <div className='name'>{group.title}</div>
+      {group.primary && this.renderCount()}
+      <a onClick={this.onClick}><span></span></a>
     </div>;
   }
 }
