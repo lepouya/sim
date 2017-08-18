@@ -1,0 +1,36 @@
+{
+  "name": "sim",
+  "version": "0.0.1",
+  "description": "My simulator game",
+  "author": "Pouya Larjani",
+  "license": "MIT",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "test": "jest",
+    "build": "webpack --progress --colors -p",
+    "start": "webpack-dev-server -d -w --quiet --hot --host 0.0.0.0 --public sim-pouya.codeanyapp.com:8080 --content-base dist/"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "testRegex": "src/.*/__tests__/.*\\.jsx?$",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
+  "devDependencies": {
+    "babel-jest": "^20.0.3",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "jest": "^20.0.4",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
