@@ -1,4 +1,4 @@
 Wish: Figure out the webpacking of css/html/images
 Wish: Fancy designer
 Add: load and save to localStorage + timed save
-Add: Custom tabs for special pages save/about/etc
+Modify: implement save screen (should be similar to the debug window)

@@ -1,6 +1,7 @@
 import React from "react";
 import DebugInfo from "./DebugInfo";
 import Screen from "./Screen";
+import SaveScreen from "./SaveScreen";
 import Tab from "./Tab";
 
 export default class Game extends React.Component {
@@ -38,8 +39,13 @@ export default class Game extends React.Component {
     
     return <div id='game'>
       <div id='title'>{this.props.resourceManager.name}</div>
-      
+
       <div id='tabBar'>
+        <Tab
+          tab={{title: 'Save', visible: true, right: true}}
+          selected={this.state.tab == 'save'}
+          onClick={() => this.setState({tab: 'save'})} />
+
         {this.props.resourceManager.tabs.map((tab, i) =>
           <Tab
             key={"tab_" + i}
@@ -48,11 +54,15 @@ export default class Game extends React.Component {
             onClick={() => this.setState({tab: i})} />
         )}
       </div>
-      
+ 
+      {(this.state.tab == 'save') &&
+        <SaveScreen resourceManager={this.props.resourceManager} />
+      }
+
       <Screen
         tab={tab}
         onUpdate={this.tick} />
-      
+
       {this.state.debug &&
         <DebugInfo
           lastUpdate={this.state.lastUpdate}
