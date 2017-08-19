@@ -28,6 +28,7 @@ const game = {
             ]
         },
         { title: 'Surprise third tab!', primary: 'Gold Prospector' },
+        { title: 'About', items: [], right: true },
     ],
     growths: {
         '+100%': {

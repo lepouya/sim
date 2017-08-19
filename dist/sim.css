@@ -175,3 +175,7 @@ body {
 .tab.active:hover {
 	background-color: white;
 }
+
+.tab.right {
+  float: right;
+}

@@ -20,7 +20,7 @@ export default class Tab extends React.Component {
 
     return <div
             id={"tab_" + tab.title.toLowerCase().replace(" ", "_")}
-            className={"clickable tab" + (this.props.selected ? " active" : "")}>
+            className={"clickable tab" + (this.props.selected ? " active" : "") + (tab.right ? " right" : "")}>
       <div className='name'>{tab.title}</div>
       <a onClick={this.onClick}><span></span></a>
     </div>;
