@@ -1,5 +1,4 @@
-export const game = {
-    
+const game = {
     name: 'le Sim Game',
     updateGranularity: 0.25,
     maxUpdateCycles: 3600,
@@ -97,13 +96,13 @@ export const game = {
             outputRate: [{ entity: 'Gold Mine', baseRate: 1 }],
         },
         Poop: {
-            description: "This is literally shit",
+            description: "This is literally <i>shit</i>",
             locked: false,
             price: [{ entity: 'Gold', baseRate: 10 }],
             purchaseGrowth: ['*2'],
             inputRate: [{ entity: 'Gold', baseRate: 5 }],
         },
     },
-}
+};
 
 export default game;

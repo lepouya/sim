@@ -160,7 +160,8 @@ export default class Resource extends React.Component {
     const name = resource.name.toLowerCase().replace(/[^a-z0-9_]/g, "_");
     return <div id={"resource_" + name} className='resource'>
       <div className='name'>{resource.name}</div>
-      {(resource.description != '') && <div className='description'>{resource.description}</div>}
+      {(resource.description != '') &&
+        <div className='description' dangerouslySetInnerHTML={{__html: resource.description}} />}
       {!resource.unlocked && this.renderLocked(resource)}
       {resource.unlocked && this.renderCount(resource)}
       {resource.unlocked && this.renderBuyBox(resource)}
