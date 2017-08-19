@@ -17,6 +17,9 @@ export default class Screen extends React.Component {
     const group = tab.items[this.state.group];
 
     return <div id='screen'>
+      {tab.description &&
+        <div className='description' dangerouslySetInnerHTML={{__html: tab.description}} />}
+
       <div id='groups'>
         {tab.items.map((group, i) =>
           <Group
@@ -28,6 +31,8 @@ export default class Screen extends React.Component {
       </div>
       
       <div id='main'>
+        {group && group.description &&
+          <div className='description' dangerouslySetInnerHTML={{__html: group.description}} />}
         {group && group.items.map((bundle, i) =>
           <Bundle
             key={"bundle_" + i}

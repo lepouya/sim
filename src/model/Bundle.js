@@ -5,7 +5,8 @@ export default class Bundle extends Entity {
     super({
       title,
       primary,
-      items
+      items,
+      description: undefined,
     });
   }
 

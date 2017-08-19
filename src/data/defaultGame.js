@@ -15,7 +15,7 @@ const game = {
                         { primary: 'Gold Prospector' },
                     ]
                 },
-                { title: 'Empty Group', items: [] },
+                { title: 'Empty Group', items: [], description: "There's nothing here." },
                 { title: 'Fecal Matter', items: [{ primary: 'Poop' }] },
             ]
         },
@@ -24,11 +24,23 @@ const game = {
             primary: 'Poop',
             items: [
                 { title: 'Feces', primary: 'Poop', items: [] },
-                { title: 'Not Feces', primary: 'Gold Mine', items: [{ primary: 'Gold Mine' }] },
-            ]
+                {
+                  title: 'Not Feces',
+                  primary: 'Gold Mine',
+                  items: [{ primary: 'Gold Mine' }],
+                  description: "ok so there isn't anything interesting here." },
+            ],
+            description: 'This is a small remix of some of the other stuff you already saw in the other tab'
         },
         { title: 'Surprise third tab!', primary: 'Gold Prospector' },
-        { title: 'About', items: [], right: true },
+        {
+          title: 'About',
+          items: [],
+          right: true,
+          description: "This is a simulator game that I made from boredom.\
+            <p>There isn't really all that much here yet, but I'm actively working on it.</p>\
+            <p>Developerd by <a href='https://github.com/lepouya'>Pouya Larjani</a></p>",
+        },
     ],
     growths: {
         '+100%': {

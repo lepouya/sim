@@ -88,7 +88,7 @@ body {
   margin-bottom: 8px;
 }
 
-.resource > .description {
+.description {
   border-left: 3px solid darkgray;
   padding: 0.1em 5px;
   margin: 0.4em 5px;
