@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   
   entry: {
-    'bundle': './src/index.jsx',
+    'sim': './src/index.jsx',
   },
 
   output: {
