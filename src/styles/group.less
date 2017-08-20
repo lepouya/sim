@@ -1,0 +1,33 @@
+@import 'clickable';
+@import 'number';
+
+.group {
+  width: 100%;
+  margin: 5px 0;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #eeeeee;
+  box-sizing: border-box;
+
+  .count {
+    float: right;
+  }
+
+  > div {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    overflow: visible;
+    float: left;
+  }
+
+  &.active {
+    background-color: #ffffff;
+  }
+
+  &:hover {
+    background-color: #f7f7ff;
+  }
+}

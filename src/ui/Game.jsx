@@ -1,8 +1,9 @@
-import React from "react";
-import DebugInfo from "./DebugInfo";
-import Screen from "./Screen";
-import SaveScreen from "./SaveScreen";
-import Tab from "./Tab";
+import '../styles/game';
+import React from 'react';
+import Screen from './Screen';
+import SaveScreen from './SaveScreen';
+import Tab from './Tab';
+import DebugInfo from './DebugInfo';
 
 export default class Game extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Game extends React.Component {
     this.state = {
       lastUpdate: new Date(),
       tab: 0,
-      debug: (window.location.href.indexOf("debug") > 0),
+      debug: (window.location.href.indexOf('debug') > 0),
     };
   }
 
@@ -48,16 +49,19 @@ export default class Game extends React.Component {
 
         {this.props.resourceManager.tabs.map((tab, i) =>
           <Tab
-            key={"tab_" + i}
+            key={'tab_' + i}
             tab={tab}
             selected={i == this.state.tab}
             onClick={() => this.setState({tab: i})} />
         )}
       </div>
- 
+
       {(this.state.tab == 'save') &&
         <SaveScreen resourceManager={this.props.resourceManager} />
       }
+ 
+      {tab && tab.description &&
+        <div className='bundle' dangerouslySetInnerHTML={{__html: tab.description}} />}
 
       <Screen
         tab={tab}

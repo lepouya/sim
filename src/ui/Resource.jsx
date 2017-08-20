@@ -1,4 +1,5 @@
-import React from "react";
+import '../styles/resource';
+import React from 'react';
 
 export default class Resource extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ export default class Resource extends React.Component {
     if ((value < 0.1) && (value > -0.1)) {
       return <span className='zero'>{num}</span>;
     } else if (diff >= 0) {
-      return <span className='positive'>{(plus ? "+" : "") + num}</span>;
+      return <span className='positive'>{(plus ? '+' : '') + num}</span>;
     } else {
       return <span className='negative'>{num}</span>;
     }
@@ -35,7 +36,7 @@ export default class Resource extends React.Component {
     const res = [];
     for (let i = 0; i < rates.length; i++) {
       const rate = rates[i];
-      const prefix = (i > 0) ? ", " : "";
+      const prefix = (i > 0) ? ', ' : '';
       const value = this.renderNumber(rate.value, digits, plus, origin ? rate.entity.count : 0, reverse);
       res.push(<span key={i}>{prefix}{value} {rate.entity.name}</span>);
     }
@@ -157,8 +158,8 @@ export default class Resource extends React.Component {
       return null;
     }
     
-    const name = resource.name.toLowerCase().replace(/[^a-z0-9_]/g, "_");
-    return <div id={"resource_" + name} className='resource'>
+    const name = resource.name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+    return <div id={'resource_' + name} className='resource'>
       <div className='name'>{resource.name}</div>
       {(resource.description != '') &&
         <div className='description' dangerouslySetInnerHTML={{__html: resource.description}} />}

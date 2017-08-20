@@ -1,6 +1,6 @@
-import React from "react";
-import Bundle from "./Bundle";
-import Group from "./Group";
+import React from 'react';
+import Bundle from './Bundle';
+import Group from './Group';
 
 export default class Screen extends React.Component {
   constructor(props) {
@@ -17,25 +17,22 @@ export default class Screen extends React.Component {
     const group = tab.items[this.state.group];
 
     return <div id='screen'>
-      {tab.description &&
-        <div className='description' dangerouslySetInnerHTML={{__html: tab.description}} />}
-
       <div id='groups'>
         {tab.items.map((group, i) =>
           <Group
-            key={"group_" + i}
+            key={'group_' + i}
             group={group}
             selected={i == this.state.group}
             onClick={() => this.setState({group: i})} />
         )}
       </div>
-      
+
       <div id='main'>
         {group && group.description &&
-          <div className='description' dangerouslySetInnerHTML={{__html: group.description}} />}
+          <div className='bundle' dangerouslySetInnerHTML={{__html: group.description}} />}
         {group && group.items.map((bundle, i) =>
           <Bundle
-            key={"bundle_" + i}
+            key={'bundle_' + i}
             bundle={bundle}
             onUpdate={this.props.onUpdate} />
         )}

@@ -1,5 +1,6 @@
-import React from "react";
-import Resource from "./Resource";
+import '../styles/bundle';
+import React from 'react';
+import Resource from './Resource';
 
 export default class Bundle extends React.Component {
   render() {
@@ -16,7 +17,7 @@ export default class Bundle extends React.Component {
       }
       {bundle.items.map(resource =>
         <Resource
-          key={"resource_ " + resource.name}
+          key={'resource_ ' + resource.name}
           resource={resource}
           onUpdate={this.props.onUpdate} />
       )}

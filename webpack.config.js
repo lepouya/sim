@@ -24,11 +24,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css/,
-        loader: ExtractTextPlugin.extract('css-loader'),
-      },
-      {
-        test: /\.less/,
+        test: /\.(less|css)/,
         loader: ExtractTextPlugin.extract(['css-loader', 'less-loader']),
       },
     ]

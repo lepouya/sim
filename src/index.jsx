@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Game from './ui/Game';
 import saveGame from './SaveGame';
-import './styles';
 
 window.onload = event => ReactDOM.render(
   <Game resourceManager={saveGame} />,

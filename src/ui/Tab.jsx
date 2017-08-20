@@ -1,4 +1,5 @@
-import React from "react";
+import '../styles/tab';
+import React from 'react';
 
 export default class Tab extends React.Component {
   constructor(props) {
@@ -19,8 +20,8 @@ export default class Tab extends React.Component {
     }
 
     return <div
-            id={"tab_" + tab.title.toLowerCase().replace(" ", "_")}
-            className={"clickable tab" + (this.props.selected ? " active" : "") + (tab.right ? " right" : "")}>
+            id={'tab_' + tab.title.toLowerCase().replace(' ', '_')}
+            className={'clickable tab' + (this.props.selected ? ' active' : '') + (tab.right ? ' right' : '')}>
       <div className='name'>{tab.title}</div>
       <a onClick={this.onClick}><span></span></a>
     </div>;

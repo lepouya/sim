@@ -1,4 +1,5 @@
-import React from "react";
+import '../styles/group';
+import React from 'react';
 
 export default class Group extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class Group extends React.Component {
     if ((value < 0.1) && (value > -0.1)) {
       return <span className='zero'>{num}</span>;
     } else if (value > 0) {
-      return <span className='positive'>{(plus ? "+" : "") + num}</span>;
+      return <span className='positive'>{(plus ? '+' : '') + num}</span>;
     } else {
       return <span className='negative'>{num}</span>;
     }
@@ -44,8 +45,8 @@ export default class Group extends React.Component {
     }
 
     return <div
-            id={"group_" + group.title.toLowerCase().replace(" ", "_")}
-            className={"clickable group" + (this.props.selected ? " active" : "")}>
+            id={'group_' + group.title.toLowerCase().replace(' ', '_')}
+            className={'clickable group' + (this.props.selected ? ' active' : '')}>
       <div className='name'>{group.title}</div>
       {group.primary && this.renderCount()}
       <a onClick={this.onClick}><span></span></a>

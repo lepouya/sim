@@ -1,0 +1,33 @@
+@import 'number';
+
+.resource {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  .name {
+    font-size: 16px;
+    font-variant: small-caps;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 8px;
+  }
+
+  .description {
+    border-left: 3px solid darkgray;
+    padding: 0.1em 5px;
+    margin: 0.4em 5px;
+    quotes: "\201C""\201D""\2018""\2019";
+  }
+
+  +.resource {
+    margin-top: 7px;
+    padding-top: 7px;
+    border-top: 1px solid black;
+  }
+
+  .locked {
+    margin-top: 8px;
+    color: tomato;
+  }
+}

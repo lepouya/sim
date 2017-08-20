@@ -1,4 +1,5 @@
-import React from "react";
+import '../styles/debugInfo';
+import React from 'react';
 
 export default class DebugInfo extends React.Component {
   constructor(props) {
@@ -34,15 +35,15 @@ export default class DebugInfo extends React.Component {
         <div>
           Debug info:<br/>
           Last update: {this.props.lastUpdate.toLocaleTimeString()}<br/>
-          Current state:
-          <pre>{JSON.stringify(this.props.resourceManager.save(), null, 2)}</pre>
+          Current state:<br/>
+          {JSON.stringify(this.props.resourceManager.save(), null, 2)}
         </div>
         <form onSubmit={this.load}>
           Load from JSON:<br/>
           <textarea value={this.state.savedGame} onChange={e => this.setState({savedGame: e.target.value})} />
           <br/>
-          <input type="submit" value="Load Progressive" onClick={e => this.setState({reset: false})} />
-          <input type="submit" value="Reset & Load New" onClick={e => this.setState({reset: true})} />
+          <input type='submit' value='Load Progressive' onClick={e => this.setState({reset: false})} />
+          <input type='submit' value='Reset & Load New' onClick={e => this.setState({reset: true})} />
         </form>
       </div>;
   }

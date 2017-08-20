@@ -1,0 +1,32 @@
+@import 'clickable';
+
+#tabBar {
+  display: block;
+  border-bottom: 1px solid black;
+  margin: 0 auto 10px;
+  padding: 0 10px;
+}
+
+.tab {
+  padding: 5px 10px;
+
+  &.active {
+    background-color: white;
+    border: 1px solid black;
+    border-bottom: 1px solid transparent;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: -1px;
+  }
+
+  &:hover {
+    background-color: #f7f7ff;
+  }
+
+  &.active:hover {
+    background-color: white;
+  }
+
+  &.right {
+    float: right;
+  }
+}
