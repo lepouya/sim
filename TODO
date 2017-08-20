@@ -1,4 +1,5 @@
-Wish: Figure out the webpacking of css/html/images
 Wish: Fancy designer
 Add: load and save to localStorage + timed save
 Modify: implement save screen (should be similar to the debug window)
+Modify: Break up styles.css into modular .less files
+Remove: webpack rule for css once the styles break up is done
