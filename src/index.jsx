@@ -1,8 +1,9 @@
+import saveGame from './data/defaultGame';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ResourceManager from "./model/ResourceManager";
 import Game from './ui/Game';
-import saveGame from './SaveGame';
 
 window.onload = event => ReactDOM.render(
-  <Game resourceManager={saveGame} />,
+  <Game resourceManager={new ResourceManager().load(saveGame)} />,
   document.getElementById('root'));
