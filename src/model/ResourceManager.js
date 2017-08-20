@@ -146,6 +146,12 @@ export default class ResourceManager extends Entity {
     return this;
   }
 
+  resetLocalStorage() {
+    if (storageAvailable('localStorage')) {
+      localStorage.removeItem(this.name);
+    }
+  }
+
   saveToString() {
     return btoa(JSON.stringify(this.save()));
   }

@@ -33,7 +33,7 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('[name].css'),
     new HtmlWebpackPlugin({
-      template: 'src/index.ejs',
+      template: './src/index.ejs',
       inject: false,
     }),
   ],
