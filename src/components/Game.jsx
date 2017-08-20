@@ -12,7 +12,8 @@ export default class Game extends React.Component {
     document.title = this.props.resourceManager.name;
     this.tick = this.tick.bind(this);
     this.state = {
-      lastUpdate: new Date(),
+      lastUpdate: Date.now(),
+      lastSave: Date.now(),
       tab: 0,
       debug: (window.location.href.indexOf('debug') > 0),
     };
@@ -31,8 +32,14 @@ export default class Game extends React.Component {
   }
 
   tick() {
+    const now = Date.now();
     this.props.resourceManager.update();
-    this.setState({lastUpdate: new Date()});
+    this.setState({lastUpdate: now});
+
+    if ((now - this.state.lastSave) / 1000 >= 60) {
+      this.props.resourceManager.saveToLocalStorage();
+      this.setState({lastSave: now});
+    }
   }
 
   render() {
@@ -68,9 +75,7 @@ export default class Game extends React.Component {
         onUpdate={this.tick} />
 
       {this.state.debug &&
-        <DebugInfo
-          lastUpdate={this.state.lastUpdate}
-          resourceManager={this.props.resourceManager} />
+        <DebugInfo resourceManager={this.props.resourceManager} />
       }
     </div>;
   }

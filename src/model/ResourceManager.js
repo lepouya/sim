@@ -1,8 +1,37 @@
-import Entity from "./Entity";
-import Resource from "./Resource";
-import Rate from "./Rate";
-import Growth from "./Growth";
-import Bundle from "./Bundle";
+import Entity from './Entity';
+import Resource from './Resource';
+import Rate from './Rate';
+import Growth from './Growth';
+import Bundle from './Bundle';
+
+const storageAvailable = function(type) {
+  const storage = window[type];
+  const x = '__storage_test__';
+
+  if (!storage) {
+    return false;
+  }
+
+  try {
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+
+  } catch (e) {
+    return (e instanceof DOMException) &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      (storage.length !== 0) && (
+        // everything except Firefox
+        e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === 'QuotaExceededError' ||
+        // Firefox
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED');
+  }
+};
 
 export default class ResourceManager extends Entity {
   constructor(
@@ -96,6 +125,25 @@ export default class ResourceManager extends Entity {
 
   getResource(name) {
     return this.resources[name];
+  }
+
+  saveToLocalStorage() {
+    if (storageAvailable('localStorage')) {
+      const saveVal = this.saveToString();
+      if (saveVal) {
+        localStorage.setItem(this.name, saveVal);
+      }
+    }
+  }
+
+  loadFromLocalStorage() {
+    if (storageAvailable('localStorage')) {
+      const saveVal = localStorage.getItem(this.name);
+      if (saveVal) {
+        this.loadFromString(saveVal);
+      }
+    }
+    return this;
   }
 
   saveToString() {

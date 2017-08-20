@@ -34,7 +34,7 @@ export default class DebugInfo extends React.Component {
         <hr />
         <div>
           Debug info:<br/>
-          Last update: {this.props.lastUpdate.toLocaleTimeString()}<br/>
+          Last update: {new Date(this.props.resourceManager.timeStamp * 1000).toLocaleTimeString()}<br/>
           Current state:<br/>
           {JSON.stringify(this.props.resourceManager.save(), null, 2)}
         </div>
