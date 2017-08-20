@@ -11,6 +11,8 @@ export default class Game extends React.Component {
 
     document.title = this.props.resourceManager.name;
     this.tick = this.tick.bind(this);
+    this.save = this.save.bind(this);
+
     this.state = {
       lastUpdate: Date.now(),
       lastSave: Date.now(),
@@ -29,6 +31,7 @@ export default class Game extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.state.timerId);
+    this.setState({timerId: undefined});
   }
 
   tick() {
@@ -36,10 +39,14 @@ export default class Game extends React.Component {
     this.props.resourceManager.update();
     this.setState({lastUpdate: now});
 
-    if ((now - this.state.lastSave) / 1000 >= 60) {
-      this.props.resourceManager.saveToLocalStorage();
-      this.setState({lastSave: now});
+    if ((now - this.state.lastSave) / 1000 >= 10) {
+      this.save();
     }
+  }
+  
+  save() {
+    this.props.resourceManager.saveToLocalStorage();
+    this.setState({lastSave: Date.now()});
   }
 
   render() {
@@ -64,7 +71,7 @@ export default class Game extends React.Component {
       </div>
 
       {(this.state.tab == 'save') &&
-        <SaveScreen resourceManager={this.props.resourceManager} />
+        <SaveScreen game={this} />
       }
  
       {tab && tab.description &&

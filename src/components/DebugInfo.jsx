@@ -22,7 +22,7 @@ export default class DebugInfo extends React.Component {
     if (this.state.reset) {
       this.props.resourceManager.growths = {};
       this.props.resourceManager.resources = {};
-      this.props.resourceManager.groups = {};
+      this.props.resourceManager.tabs = {};
       this.setState({reset: false});
     }
     this.props.resourceManager.load(JSON.parse(this.state.savedGame));
