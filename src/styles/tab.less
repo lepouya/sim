@@ -10,23 +10,23 @@
 .tab {
   padding: 5px 10px;
 
-  &.active {
-    background-color: white;
-    border: 1px solid black;
-    border-bottom: 1px solid transparent;
-    border-radius: 5px 5px 0 0;
-    margin-bottom: -1px;
+  &.right {
+    float: right;
   }
 
   &:hover {
     background-color: #f7f7ff;
   }
 
-  &.active:hover {
+  &.active {
     background-color: white;
-  }
+    border: 1px solid black;
+    border-bottom: 1px solid transparent;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: -1px;
 
-  &.right {
-    float: right;
+    &:hover {
+      background-color: white;
+    }
   }
 }
