@@ -38,7 +38,7 @@ export default class Game extends React.Component {
   componentDidMount() {
     const timerId = setInterval(
       this.tick,
-      this.props.resourceManager.updateGranularity * 1000
+      this.props.resourceManager.updateGranularity * 1000 * 2
     );
     this.setState({timerId});
   }

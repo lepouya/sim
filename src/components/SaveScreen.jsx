@@ -15,13 +15,13 @@ export default class Screen extends React.Component {
       resourceManager,
       savedGame: resourceManager.saveToString(),
       saveTime: new Date(resourceManager.timeStamp * 1000),
-      updateGranularity: resourceManager.updateGranularity * 1000,
+      updateGranularity: resourceManager.updateGranularity * 1000 * 2,
     }
   }
 
   setTimer(e) {
     e.preventDefault();
-    this.state.resourceManager.updateGranularity = this.state.updateGranularity / 1000;
+    this.state.resourceManager.updateGranularity = this.state.updateGranularity / 1000 / 2;
     this.props.game.componentWillUnmount();
     this.props.game.componentDidMount();
     this.props.game.save();
@@ -53,7 +53,8 @@ export default class Screen extends React.Component {
         <div className='name'>Update Interval</div>
         <form onSubmit={this.setTimer}>
           <p>
-            The update interval for the game is current every {game.props.resourceManager.updateGranularity * 1000} ms.
+            The update interval for the game is current every
+            {game.props.resourceManager.updateGranularity * 1000 * 2} ms.
           </p>
           <p>
             If your game is lagging, try to set this interval to a higher value.
