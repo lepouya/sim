@@ -1,4 +1,4 @@
-import saveGame from './data/defaultGame';
+import saveGame from './data/testGame';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ResourceManager from './model/ResourceManager';
