@@ -3,6 +3,7 @@ import React from 'react';
 import Screen from './Screen';
 import SaveScreen from './SaveScreen';
 import Tab from './Tab';
+import Tutorial from './Tutorial';
 import DebugInfo from './DebugInfo';
 
 export default class Game extends React.Component {
@@ -65,6 +66,10 @@ export default class Game extends React.Component {
     return <div id='game'>
       <div id='title'>{this.props.resourceManager.name}</div>
       <div id='version' className={this.state.upgraded ? 'upgraded' : ''}>v{this.props.resourceManager.version}</div>
+
+      <Tutorial
+        resourceManager={this.props.resourceManager}
+        onUpdate={this.tick} />
 
       <div id='tabBar'>
         <Tab

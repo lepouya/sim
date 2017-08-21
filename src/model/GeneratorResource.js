@@ -21,13 +21,13 @@ export default class GeneratorResource extends TradableResource {
   }
 
   update(ticks, now) {
-    if (!super.update(ticks, now)) {
+    if (!super.update(ticks, now) || (ticks <= 0)) {
       return false;
     }
 
     this._genRate = [];
-    if ((this._count <= 0) || (ticks <= 0) ||
-      ((this.inputRate.length === 0) && (this.outputRate.length === 0))) {
+    if ((this._count <= 0) ||
+        ((this.inputRate.length === 0) && (this.outputRate.length === 0))) {
       return false;
     }
 

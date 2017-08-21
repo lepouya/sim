@@ -1,8 +1,22 @@
 const game = {
   name: 'le Sim Game',
-  version: '0.0.1',
+  version: '0.1.0',
   updateGranularity: 0.25,
   maxUpdateCycles: 3600,
+  tutorial: {
+    steps: [
+      {
+        text: 'First simple screen!',
+        post: {'Gold': 5},
+      },
+      {
+        text: 'Second simple screen!',
+        button: 'Finish tutorial',
+        pre: {'Gold': 1},
+        post: {'Gold Mine': 4, 'Gold': 20},
+      },
+    ],
+  },
   tabs: [{
       title: 'Gold & stuff',
       items: [{
@@ -90,13 +104,13 @@ const game = {
     Gold: {
       description: "This is your good old boring gold. Basic unit for spending etc etc",
       locked: false,
-      count: 10000,
+      count: 0,
       price: [],
     },
     'Gold Mine': {
       description: "This is an entire fucking gold mine that could be yours",
       locked: false,
-      count: 1,
+      count: 0,
       price: [{
         entity: 'Gold',
         baseRate: 5
