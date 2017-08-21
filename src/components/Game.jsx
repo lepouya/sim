@@ -13,9 +13,14 @@ export default class Game extends React.Component {
     let upgraded = false;
     const resourceManager = this.props.resourceManager;
     const version = resourceManager.version;
+    const tutorialSteps = resourceManager.tutorial && resourceManager.tutorial.steps;
     resourceManager.loadFromLocalStorage();
+
     if (resourceManager.version !== version) {
       resourceManager.version = version;
+      if (tutorialSteps) {
+        resourceManager.tutorial.steps = tutorialSteps;
+      }
       upgraded = true;
     }
 

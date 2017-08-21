@@ -1,6 +1,6 @@
 const game = {
   name: 'le Sim Game',
-  version: '0.1.0',
+  version: '0.1.1',
   updateGranularity: 0.25,
   maxUpdateCycles: 3600,
   tutorial: {
@@ -10,7 +10,7 @@ const game = {
         post: {'Gold': 5},
       },
       {
-        text: 'Second simple screen!',
+        text: "Second simple screen!<br/>Finish the requirements and you're all set to go",
         button: 'Finish tutorial',
         pre: {'Gold': 1},
         post: {'Gold Mine': 4, 'Gold': 20},
