@@ -4,7 +4,7 @@
   "description": "My simulator game",
   "author": "Pouya Larjani",
   "license": "MIT",
-  "main": "dist/bundle.min.js",
+  "main": "dist/sim.js",
   "scripts": {
     "test": "jest",
     "build": "webpack --progress --colors -p",
