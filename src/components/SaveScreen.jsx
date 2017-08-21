@@ -15,13 +15,13 @@ export default class Screen extends React.Component {
       resourceManager,
       savedGame: resourceManager.saveToString(),
       saveTime: new Date(resourceManager.timeStamp * 1000),
-      updateGranularity: resourceManager.updateGranularity * 1000 * 2,
+      updateGranularity: resourceManager.updateGranularity * 1000,
     }
   }
 
   setTimer(e) {
     e.preventDefault();
-    this.state.resourceManager.updateGranularity = this.state.updateGranularity / 1000 / 2;
+    this.state.resourceManager.updateGranularity = this.state.updateGranularity / 1000;
     this.props.game.componentWillUnmount();
     this.props.game.componentDidMount();
     this.props.game.save();
@@ -53,11 +53,11 @@ export default class Screen extends React.Component {
         <div className='name'>Update Interval</div>
         <form onSubmit={this.setTimer}>
           <p>
-            The update interval for the game is current every
-            {game.props.resourceManager.updateGranularity * 1000 * 2} ms.
-          </p>
-          <p>
+            The update interval for the game is currently
+            every {game.props.resourceManager.updateGranularity * 1000} ms.
+            <br/>
             If your game is lagging, try to set this interval to a higher value.
+            <br/>
             Lower values are more accurate by also more CPU-intensive.
           </p>
           <p>
@@ -75,6 +75,8 @@ export default class Screen extends React.Component {
         <form onSubmit={this.save}>
           <p>
             Last local save was at {new Date(game.state.lastSave).toLocaleTimeString()}
+            <br/>
+            Game auto-saves every 10 seconds.
           </p>
           <input type='submit' value='Save now' />
         </form>
