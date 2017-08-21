@@ -73,7 +73,7 @@ describe("ResourceManager update", () => {
   var markUp;
 
   beforeEach(() => {
-    rm = new ResourceManager("test manager", 1000, 0.1, 10);
+    rm = new ResourceManager("test manager", "0", 1000, 0.1, 10);
 
     rA = rm.addResource("A").withCount(100);
     rB = rm.addResource("B").withCount(20).withLimit(50);

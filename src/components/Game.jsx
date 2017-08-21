@@ -17,10 +17,6 @@ export default class Game extends React.Component {
       resourceManager.version = version;
       upgraded = true;
     }
-    if (!resourceManager.version) {
-      resourceManager.version = '0';
-      upgraded = true;
-    }
 
     document.title = resourceManager.name;
     this.tick = this.tick.bind(this);

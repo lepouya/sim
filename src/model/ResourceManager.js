@@ -36,12 +36,14 @@ const storageAvailable = function(type) {
 export default class ResourceManager extends Entity {
   constructor(
     name,
+    version = '1',
     timeStamp = Date.now() / 1000,
     updateGranularity = 0.25,
     maxUpdateCycles = 3600
   ) {
     super({
       name,
+      version,
       timeStamp,
       updateGranularity,
       maxUpdateCycles,
