@@ -5,9 +5,20 @@ body {
 }
 
 #title {
-  display: block;
+  display: inline-block;
   margin: 20px;
   font-size: 20px;
+}
+
+#version {
+  display: inline;
+  float: right;
+  margin: 20px 0;
+  font-size: 12px;
+  
+  &.upgraded {
+    color: lightgreen;
+  }
 }
 
 #screen {

@@ -1,5 +1,6 @@
 const game = {
   name: 'le Sim Game',
+  version: '0.0.1',
   updateGranularity: 0.25,
   maxUpdateCycles: 3600,
   tabs: [{

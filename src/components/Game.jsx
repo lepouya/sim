@@ -9,11 +9,25 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
 
-    document.title = this.props.resourceManager.name;
+    let upgraded = false;
+    const resourceManager = this.props.resourceManager;
+    const version = resourceManager.version;
+    resourceManager.loadFromLocalStorage();
+    if (resourceManager.version !== version) {
+      resourceManager.version = version;
+      upgraded = true;
+    }
+    if (!resourceManager.version) {
+      resourceManager.version = '0';
+      upgraded = true;
+    }
+
+    document.title = resourceManager.name;
     this.tick = this.tick.bind(this);
     this.save = this.save.bind(this);
 
     this.state = {
+      upgraded,
       lastUpdate: Date.now(),
       lastSave: Date.now(),
       tab: 0,
@@ -51,9 +65,10 @@ export default class Game extends React.Component {
 
   render() {
     const tab = this.props.resourceManager.tabs[this.state.tab];
-    
+
     return <div id='game'>
       <div id='title'>{this.props.resourceManager.name}</div>
+      <div id='version' className={this.state.upgraded ? 'upgraded' : ''}>v{this.props.resourceManager.version}</div>
 
       <div id='tabBar'>
         <Tab

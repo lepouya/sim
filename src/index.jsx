@@ -5,5 +5,5 @@ import ResourceManager from './model/ResourceManager';
 import Game from './components/Game';
 
 window.onload = event => ReactDOM.render(
-  <Game resourceManager={new ResourceManager().load(saveGame).loadFromLocalStorage()} />,
+  <Game resourceManager={new ResourceManager().load(saveGame)} />,
   document.getElementById('root'));
