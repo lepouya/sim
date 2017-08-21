@@ -13,13 +13,16 @@ body {
 #screen {
   width: 100%;
   display: inline-flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
 }
 
 #groups {
-  flex: 0 200px;
+  flex: 0 0 200px;
+  padding-left: 10px;
+  width: 200px;
 }
 
 #main {
-  flex: auto;
+  flex: 1 1 auto;
+  width: 75%;
 }
