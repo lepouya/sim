@@ -52,6 +52,7 @@ export default class Tutorial extends React.Component {
     const remaining = this.remainingReqs(post);
 
     return <div id='tutorial' className='bundle'>
+      <div className='name'>Tutorial</div>
       <div className='text' dangerouslySetInnerHTML={{__html: step.text || ''}} />
       {Object.keys(post).map((req, i) =>
         <div className='requirement'>{(i > 0) ? ' , ' : ''}{req}: {this.renderNumber(post[req], remaining[req])}</div>
