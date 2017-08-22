@@ -10,31 +10,17 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
 
-    let upgraded = false;
-    const resourceManager = this.props.resourceManager;
-    const version = resourceManager.version;
-    const tutorialSteps = resourceManager.tutorial && resourceManager.tutorial.steps;
-    resourceManager.loadFromLocalStorage();
-
-    if (resourceManager.version !== version) {
-      resourceManager.version = version;
-      if (tutorialSteps) {
-        resourceManager.tutorial.steps = tutorialSteps;
-      }
-      upgraded = true;
-    }
-
-    document.title = resourceManager.name;
-    this.tick = this.tick.bind(this);
-    this.save = this.save.bind(this);
-
     this.state = {
-      upgraded,
       lastUpdate: Date.now(),
       lastSave: Date.now(),
       tab: 0,
+      upgraded: false,
       debug: (window.location.href.indexOf('debug') > 0),
     };
+
+    this.tick = this.tick.bind(this);
+    this.save = this.save.bind(this);
+    this.load();
   }
 
   componentDidMount() {
@@ -63,6 +49,23 @@ export default class Game extends React.Component {
   save() {
     this.props.resourceManager.saveToLocalStorage();
     this.setState({lastSave: Date.now()});
+  }
+
+  load() {
+    const resourceManager = this.props.resourceManager;
+    const version = resourceManager.version;
+    resourceManager.loadFromLocalStorage();
+    document.title = resourceManager.name;
+
+    if (resourceManager.version !== version) {
+      this.setState({upgraded: false});
+      resourceManager.version = version;
+
+      const tutorialSteps = resourceManager.tutorial && resourceManager.tutorial.steps;
+      if (tutorialSteps) {
+        resourceManager.tutorial.steps = tutorialSteps;
+      }
+    }
   }
 
   render() {
