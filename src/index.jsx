@@ -1,4 +1,4 @@
-import saveGame from './data/testGame';
+import saveGame from './data/worldDom';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ResourceManager from './model/ResourceManager';
