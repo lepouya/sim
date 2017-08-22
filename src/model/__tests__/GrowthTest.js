@@ -4,7 +4,7 @@ describe("Growth", () => {
   it("Basic constructor makes entity correctly", () => {
     const bonus = new Growth();
 
-    expect(bonus.growthFunction).toBe("constant");
+    expect(bonus.growthFunction).toBe("linear");
     expect(bonus.coefficient).toBe(0);
     expect(bonus.tier).toBe(1);
     expect(bonus.getValue(0)).toBe(0);
