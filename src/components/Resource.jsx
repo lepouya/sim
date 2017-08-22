@@ -106,15 +106,20 @@ export default class Resource extends React.Component {
     const buyText = (resource.display && resource.display.buy) || 'Buy @';
     const buyMax = (resource.display && resource.display.buyMax) || buyText;
     const enabled = (price || []).reduce(((enabled, rate) => enabled && rate.entity.count >= rate.value), price !== undefined);
+    const maxEnabled = (buyText != buyMax) || buyMax.includes('@');
 
-    const buttonOne = <button onClick={_ => this.buy(1)} disabled={!enabled}>{buyText.replace('@', 1)}</button>;
-    const buttonMax = resource.limit &&
-          <button onClick={_ => this.buy(resource.limit - resource.count)} disabled={!enabled}>{buyMax.replace('@', 'max')}</button>;
-    const text = !price ? <span>The next {resource.name} is not available right now</span> :
-          (price.length > 0) ? <span>The next {resource.name} will cost {this.renderRates(price, 0, false, true, true)}</span> :
-          null;
-    
-    return <div className='buy'>{buttonOne}{buttonMax} {text}</div>;
+    const text = price && (price.length > 0) &&
+          <span>for {this.renderRates(price, 0, false, true, true)}</span>;
+    const buttonOne =
+          <button onClick={_ => this.buy(1)} disabled={!enabled}>
+            {buyText.replace('@', 1)} {text}
+          </button>;
+    const buttonMax = resource.limit && maxEnabled &&
+          <button onClick={_ => this.buy(resource.limit - resource.count)} disabled={!enabled}>
+            {buyMax.replace('@', 'max')}
+          </button>;
+
+    return <div className='buy'>{buttonOne} {buttonMax}</div>;
   }
 
   renderSellBox(resource) {
@@ -124,17 +129,21 @@ export default class Resource extends React.Component {
     
     const price = resource.getSellPrice();
     const sellText = (resource.display && resource.display.sell) || 'Sell @';
-    const sellAll = (resource.display && resource.display.sellMax) || sellText;
+    const sellMax = (resource.display && resource.display.sellMax) || sellText;
     const enabled = price && (resource.count > 0);
+    const maxEnabled = (sellText != sellMax) || sellMax.includes('@');
 
-    const buttonOne = <button onClick={_ => this.sell(1)} disabled={!enabled}>{sellText.replace('@', 1)}</button>;
-    const buttonAll = (!enabled || price.length > 0) &&
-          <button onClick={_ => this.sell(resource.count)} disabled={!enabled}>{sellAll.replace('@', 'all')}</button>;
-    const text = !enabled ? <span>Cannot sell any {resource.name} right now</span> :
-          (price.length > 0) ? <span>Current {resource.name} sells for {this.renderRates(price)}</span> :
-          null;
-    
-    return <div className='sell'>{buttonOne}{buttonAll} {text}</div>;
+    const text = enabled && (price.length > 0) &&
+          <span>for {this.renderRates(price)}</span>;
+    const buttonOne = <button onClick={_ => this.sell(1)} disabled={!enabled}>
+            {sellText.replace('@', 1)} {text}
+          </button>;
+    const buttonMax = (!enabled || price.length > 0) && maxEnabled &&
+          <button onClick={_ => this.sell(resource.count)} disabled={!enabled}>
+            {sellMax.replace('@', 'all')}
+          </button>;
+
+    return <div className='sell'>{buttonOne} {buttonMax}</div>;
   }
 
   render() {
@@ -142,11 +151,11 @@ export default class Resource extends React.Component {
     if (!resource || !resource.visible) {
       return null;
     }
-    
-    const name = resource.name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
-    return <div id={'resource_' + name} className='resource'>
-      <div className='name'>{resource.name}</div>
-      {(resource.description != '') &&
+
+    const name = resource.name.charAt(0).toUpperCase() + resource.name.slice(1);
+    return <div id={'resource_' + name.toLowerCase().replace(/[^a-z0-9_]/g, '_')} className='resource'>
+      <div className='name'>{name}</div>
+      {(resource.description !== '') &&
         <div className='description' dangerouslySetInnerHTML={{__html: resource.description}} />}
       {!resource.unlocked && this.renderLocked(resource)}
       {resource.unlocked && this.renderCount(resource)}
