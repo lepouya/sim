@@ -106,6 +106,9 @@ const game = {
       locked: false,
       count: 0,
       price: [],
+      display: {
+        buy: 'Mine!',
+      },
     },
     'Gold Mine': {
       description: "This is an entire fucking gold mine that could be yours",
@@ -121,6 +124,9 @@ const game = {
         entity: 'Gold',
         baseRate: 1
       }],
+      display: {
+        sell: 'Abandon @',
+      },
     },
     'Max Gold Mines': {
       description: "Increases the maximum number of gold mines you can have",
@@ -147,6 +153,9 @@ const game = {
           },
         ]
       }],
+      display: {
+        buy: 'Increase Limit',
+      },
     },
     'Gold Prospector': {
       description: "Finds gold mines for you. Kinda fucking weird if you think about it",
@@ -174,6 +183,9 @@ const game = {
         entity: 'Gold Mine',
         baseRate: 1
       }],
+      display: {
+        sellMax: 'Just fucking quit it all',
+      },
     },
     Poop: {
       description: "This is literally <i>shit</i>",

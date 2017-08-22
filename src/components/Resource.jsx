@@ -101,32 +101,20 @@ export default class Resource extends React.Component {
     if (!resource.price) {
       return null;
     }
-    
+
     const price = resource.getBuyPrice();
-    let text = null;
-    let button1 = <button onClick={_ => this.buy()}>Get 1</button>;
-    let buttonMax = null;
+    const buyText = (resource.display && resource.display.buy) || 'Buy @';
+    const buyMax = (resource.display && resource.display.buyMax) || buyText;
+    const enabled = (price || []).reduce(((enabled, rate) => enabled && rate.entity.count >= rate.value), price !== undefined);
 
-    if (!price) {
-      text = <span>The next {resource.name} is not available right now</span>;
-      button1 = <button disabled={true}>Buy 1</button>;
-      if (resource.limit) {
-        buttonMax = <button disabled={true}>Buy Max</button>;
-      }
-    } else if (price.length > 0) {
-      let enabled = true;
-      for (let rate of price) {
-        enabled = enabled && (rate.entity.count >= rate.value);
-      }
-
-      text = <span>The next {resource.name} will cost {this.renderRates(price, 0, false, true, true)}</span>;
-      button1 = <button onClick={_ => this.buy(1)} disabled={!enabled}>Buy 1</button>;
-      if (resource.limit) {
-        buttonMax = <button onClick={_ => this.buy(resource.limit - resource.count)} disabled={!enabled}>Buy Max</button>;
-      }
-    }
+    const buttonOne = <button onClick={_ => this.buy(1)} disabled={!enabled}>{buyText.replace('@', 1)}</button>;
+    const buttonMax = resource.limit &&
+          <button onClick={_ => this.buy(resource.limit - resource.count)} disabled={!enabled}>{buyMax.replace('@', 'max')}</button>;
+    const text = !price ? <span>The next {resource.name} is not available right now</span> :
+          (price.length > 0) ? <span>The next {resource.name} will cost {this.renderRates(price, 0, false, true, true)}</span> :
+          null;
     
-    return <div className='buy'>{button1}{buttonMax} {text}</div>;
+    return <div className='buy'>{buttonOne}{buttonMax} {text}</div>;
   }
 
   renderSellBox(resource) {
@@ -135,21 +123,18 @@ export default class Resource extends React.Component {
     }
     
     const price = resource.getSellPrice();
-    let text = null;
-    let button1 = <button onClick={_ => this.sell()}>Destroy 1</button>;
-    let buttonAll = null;
+    const sellText = (resource.display && resource.display.sell) || 'Sell @';
+    const sellAll = (resource.display && resource.display.sellMax) || sellText;
+    const enabled = price && (resource.count > 0);
+
+    const buttonOne = <button onClick={_ => this.sell(1)} disabled={!enabled}>{sellText.replace('@', 1)}</button>;
+    const buttonAll = (!enabled || price.length > 0) &&
+          <button onClick={_ => this.sell(resource.count)} disabled={!enabled}>{sellAll.replace('@', 'all')}</button>;
+    const text = !enabled ? <span>Cannot sell any {resource.name} right now</span> :
+          (price.length > 0) ? <span>Current {resource.name} sells for {this.renderRates(price)}</span> :
+          null;
     
-    if (!price || (resource.count == 0)) {
-      text = <span>Cannot sell any {resource.name} right now</span>;
-      button1 = <button disabled={true}>Sell 1</button>;
-      buttonAll = <button disabled={true}>Sell All</button>;
-    } else if (price.length > 0) {
-      text = <span>Current {resource.name} sells for {this.renderRates(price)}</span>;
-      button1 = <button onClick={_ => this.sell(1)}>Sell 1</button>;
-      buttonAll = <button onClick={_ => this.sell(resource.count)}>Sell All</button>;
-    }
-    
-    return <div className='sell'>{button1}{buttonAll} {text}</div>;
+    return <div className='sell'>{buttonOne}{buttonAll} {text}</div>;
   }
 
   render() {
