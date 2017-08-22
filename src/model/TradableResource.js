@@ -25,7 +25,9 @@ export default class TradableResource extends UsableResource {
         p = this.sellModifier.reduce((accum, mod) => mod.getValue(accum), p);
       }
 
-      res.push({entity: rate.entity, value: p, doNotSpend: rate.doNotSpend});
+      if (p > 0) {
+        res.push({entity: rate.entity, value: p, doNotSpend: rate.doNotSpend});
+      }
     }
 
     return res;
