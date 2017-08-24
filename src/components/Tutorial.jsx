@@ -24,8 +24,19 @@ export default class Tutorial extends React.Component {
     return remaining;
   }
 
-  nextStep(step) {
-    this.props.resourceManager.tutorial.step = step + 1;
+  nextStep() {
+    const tutorial = this.props.resourceManager.tutorial;
+    const curStep = tutorial.step || 0;
+    const step = tutorial.steps[curStep];
+
+    tutorial.step = curStep + 1;
+    for (let prize in (step.prize || {})) {
+      const resource = this.props.resourceManager.getResource(prize);
+      if (resource) {
+        resource.count += step.prize[prize] ;
+      }
+    }
+
     this.props.onUpdate();
   }
 
@@ -57,9 +68,14 @@ export default class Tutorial extends React.Component {
       {Object.keys(post).map((req, i) =>
         <div className='requirement'>{(i > 0) ? ' , ' : ''}{req}: {this.renderNumber(post[req], remaining[req])}</div>
       )}
-      <button onClick={_ => this.nextStep(tutorial.step || 0)} disabled={!this.isMapEmpty(remaining)}>
+      <button onClick={_ => this.nextStep()} disabled={!this.isMapEmpty(remaining)}>
         {step.button || 'Continue'}
       </button>
+      {step.prize && !this.isMapEmpty(step.prize) && Object.keys(step.prize).map((res, i) =>
+        <div className='requirement'>
+          {(i > 0) ? ' , ' : 'Upon completion, rewards '}{step.prize[res]} {res}
+        </div>
+      )}
     </div>;
   }
 }

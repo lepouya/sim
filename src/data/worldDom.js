@@ -31,25 +31,28 @@ const game = {
               "You will need some coins if you want to dominate this world... ok, a lot of coins<br/><br/>" +
               "Go ahead and sell some of that wood you just axed down. You can get 1 coin for each one of them from the local market",
         post: {coin: 1},
+        prize: {coin: 5},
         button: "Yay I got some money",
       },
       {
         text: 'Notice that a new "Money" section just opened up below. Go ahead and look in it<br/>' +
               "We're gonna need some more coins if we want to continue. How about you sell the rest of that wood?",
-        post: {coin: 5},
+        post: {coin: 10},
         button: "I'm rich!",
       },
       {
         text: "Now let's get quarrying! Put your back to it and go to the Stone section below and dig out some rocks!<br/>" +
               "5 pieces should be enough",
         post: {stone: 5},
+        prize: {wood: 5},
         button: "Easy peasy",
       },
       {
         text: "Great!<br/>" +
               "Now, why don't we try and make some storage places so that we can keep more of the goodies and resources?<br/>" +
               "Go ahead and chop down some more wood. We're gonna need some wood and stone to build a makeshift shed",
-        post: {wood: 10, stone: 5, coin: 5},
+        post: {wood: 10, stone: 5, coin: 10},
+        prize: {coin: 10},
         button: "Phew! That was hard work"
       },
       {
