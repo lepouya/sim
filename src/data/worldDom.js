@@ -51,12 +51,27 @@ const game = {
         text: "Great!<br/>" +
               "Now, why don't we try and make some storage places so that we can keep more of the goodies and resources?<br/>" +
               "Go ahead and chop down some more wood. We're gonna need some wood and stone to build a makeshift shed",
-        post: {wood: 10, stone: 5, coin: 10},
+        post: {coin: 10, wood: 10, stone: 5},
         prize: {coin: 10},
-        button: "Phew! That was hard work"
+        button: "Phew! That was hard work",
+      },
+      {
+        text: "You can build a wood shed now!<br/>" +
+              "To build a shed, you'll need to lay a bed of rocks, then put some logs on top of it. " +
+              "Also buy some supplies from the market to put the whole thing together<br/>" +
+              "Go ahead and build one now",
+        post: {'wood shed': 1},
+        prize: {coin: 10, wood: 5},
+        button: "I have built my masterpiece!",
+      },
+      {
+        text: "Nice! The storage limit for your wood doubled now!<br/>" +
+              "With every new shed you make, you get better at it and can build a bigger and better one that stores " + 
+              "twice as much as before! But it will also cost more to build. You know, because it's bigger and better",
       },
       {
         text: "That's all the tutorial I have made so far. Next time you come back you might actually have to reset the game",
+        button: "Finish tutorial",
       },
     ],
   },
@@ -71,7 +86,7 @@ const game = {
           title: 'Wood',
           primary: 'wood',
           items: [
-            {items: ['wood']},
+            {items: ['wood', 'wood shed']},
           ],
         },
         {
@@ -90,6 +105,14 @@ const game = {
     },
   ],
   growths: {
+    '*2': {
+      growthFunction: 'multiplicative',
+      coefficient: 2,
+    },
+    '-50%': {
+      growthFunction: 'percentage',
+      coefficient: -50,
+    },
   },
   resources: {
     invisible: {visible: false},
@@ -117,6 +140,26 @@ const game = {
       price: [{entity: 'coin', baseRate: 0}],
       sellModifier: [{growthFunction: 'constant', coefficient: 1}],
       display: {buy: 'Dig'},
+    },
+    'wood shed': {
+      description: "A place to store the pieces of wood you've chopped.<br/>" +
+                   "Increases the maximum limit of wood",
+      visible: false,
+      requirement: [{entity: 'wood', baseRate: 10}],
+      price: [
+        {entity: 'coin', baseRate: 10},
+        {entity: 'wood', baseRate: 10},
+        {entity: 'stone', baseRate: 5},
+      ],
+      purchaseGrowth: ['*2'],
+      setsLimitFor: [{
+        entity: 'wood',
+        bonuses: [ // 10 * 2^n
+          {growthFunction: 'exponential', coefficient: 2},
+          {growthFunction: 'multiplicative', coefficient: 10},
+        ]
+      }],
+      display: {buy: 'Build'},
     },
   },
 };
