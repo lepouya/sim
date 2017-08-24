@@ -136,11 +136,11 @@ export default class Resource extends React.Component {
     const text = enabled && (price.length > 0) &&
           <span>for {this.renderRates(price)}</span>;
     const buttonOne = <button onClick={_ => this.sell(1)} disabled={!enabled}>
-            {sellText.replace('@', 1)} {text}
+            {sellText.replace('@', '')} {text}
           </button>;
-    const buttonMax = (!enabled || price.length > 0) && maxEnabled &&
+    const buttonMax = (!enabled || price.length > 0) && maxEnabled && (resource.count > 1) &&
           <button onClick={_ => this.sell(resource.count)} disabled={!enabled}>
-            {sellMax.replace('@', 'all')}
+            {sellMax.replace('@', resource.count)}
           </button>;
 
     return <div className='sell'>{buttonOne} {buttonMax}</div>;

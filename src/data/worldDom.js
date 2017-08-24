@@ -106,7 +106,7 @@ const game = {
       unlocked: true,
       price: [{entity: 'coin', baseRate: 0}],
       sellModifier: [{growthFunction: 'constant', coefficient: 1}],
-      display: {buy: 'Chop', sell: 'Sell'},
+      display: {buy: 'Chop'},
     },
     stone: {
       description: "Basic material for construction",
@@ -116,7 +116,7 @@ const game = {
       requirement: [{entity: 'coin', baseRate: 5}],
       price: [{entity: 'coin', baseRate: 0}],
       sellModifier: [{growthFunction: 'constant', coefficient: 1}],
-      display: {buy: 'Dig', sell: 'Sell'},
+      display: {buy: 'Dig'},
     },
   },
 };
