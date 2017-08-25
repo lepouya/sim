@@ -48,14 +48,14 @@ describe("ResourceManager load and save", () => {
       .withBundle('B|C', rB, [rB, rC])
       .withBundle('D | E', undefined, [rD, rE]);
 
-    const save = rm.saveToString();
-    const load = new ResourceManager().loadFromString(save);
-    expect(load.saveToString()).toEqual(rm.saveToString());
+    const save = rm.saveToString(false);
+    const load = new ResourceManager().loadFromString(save, false);
+    expect(load.saveToString(false)).toEqual(rm.saveToString(false));
     expect(Object.assign({}, load)).toEqual(Object.assign({}, rm));
     expect(load).toEqual(rm);
 
     load.update();
-    expect(load.saveToString()).not.toEqual(rm.saveToString());
+    expect(load.saveToString(false)).not.toEqual(rm.saveToString(false));
     expect(Object.assign({}, load)).not.toEqual(Object.assign({}, rm));
     expect(load).not.toEqual(rm);
 

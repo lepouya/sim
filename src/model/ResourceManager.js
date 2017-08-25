@@ -129,20 +129,21 @@ export default class ResourceManager extends Entity {
     return this.resources[name];
   }
 
-  saveToLocalStorage() {
+  saveToLocalStorage(incremental = true) {
     if (storageAvailable('localStorage')) {
-      const saveVal = this.saveToString();
+      const saveVal = this.saveToString(incremental);
       if (saveVal) {
         localStorage.setItem(this.name, saveVal);
       }
     }
   }
 
-  loadFromLocalStorage() {
+  loadFromLocalStorage(incremental = true) {
     if (storageAvailable('localStorage')) {
       const saveVal = localStorage.getItem(this.name);
       if (saveVal) {
-        this.loadFromString(saveVal);
+        this.loadFromString(saveVal, incremental);
+        this.update();
       }
     }
     return this;
@@ -154,17 +155,32 @@ export default class ResourceManager extends Entity {
     }
   }
 
-  saveToString() {
-    return btoa(JSON.stringify(this.save()));
+  saveToString(incremental = true) {
+    return btoa(JSON.stringify(this.save(this, false, incremental)));
   }
 
-  loadFromString(value) {
-    return this.load(JSON.parse(atob(value)));
+  loadFromString(value, incremental = true) {
+    return this.load(JSON.parse(atob(value)), this, false, incremental);
   }
 
-  save(v = this, isRoot = false) {
+  save(v = this, isRoot = false, incremental = false) {
     if ((v === undefined) || (v instanceof Function)) {
       return undefined;
+
+    } else if (incremental && (v instanceof ResourceManager)) {
+      const ret = {};
+      ret.version = v.version;
+      ret.tutorial = {step: (v.tutorial && v.tutorial.step) || 0};
+      ret.resources = {};
+
+      for (let n in v.resources) {
+        const res = v.resources[n];
+        if (n !== undefined) {
+          ret.resources[n] = {count: res.count};
+        }
+      }
+
+      return ret;
 
     } else if (!isRoot && v.name &&
       (this.growths[v.name] || this.resources[v.name])) {
@@ -201,9 +217,27 @@ export default class ResourceManager extends Entity {
     }
   }
 
-  load(obj, v = this, expand = false) {
+  load(obj, v = this, expand = false, incremental = false) {
     if (!(v instanceof Object) && !expand) {
       return obj;
+    }
+
+    if (incremental && (v instanceof ResourceManager)) {
+      v.version = obj.version || v.version;
+
+      if (v.tutorial && obj.tutorial) {
+        v.tutorial.step = obj.tutorial.step || 0;
+      }
+
+      if (v.resources && obj.resources) {
+        for (let n in v.resources) {
+          if (v.resources[n] && obj.resources[n]) {
+            v.resources[n].count = obj.resources[n].count;
+          }
+        }
+      }
+
+      return v;
     }
 
     if (expand) {

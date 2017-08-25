@@ -13,7 +13,7 @@ export default class Screen extends React.Component {
 
     this.state = {
       resourceManager,
-      savedGame: resourceManager.saveToString(),
+      savedGame: resourceManager.saveToString(true),
       saveTime: new Date(resourceManager.timeStamp * 1000),
       updateGranularity: resourceManager.updateGranularity * 1000,
     }
@@ -29,7 +29,7 @@ export default class Screen extends React.Component {
 
   load(e) {
     e.preventDefault();
-    this.state.resourceManager.loadFromString(this.state.savedGame);
+    this.state.resourceManager.loadFromString(this.state.savedGame, true);
     this.props.game.save();
     window.location.reload(false);
   }

@@ -14,7 +14,6 @@ export default class Game extends React.Component {
       lastUpdate: Date.now(),
       lastSave: Date.now(),
       tab: 0,
-      upgraded: false,
       debug: (window.location.href.indexOf('debug') > 0),
     };
 
@@ -58,13 +57,8 @@ export default class Game extends React.Component {
     document.title = resourceManager.name;
 
     if (resourceManager.version !== version) {
-      this.setState({upgraded: false});
+      this.state.upgraded = true;
       resourceManager.version = version;
-
-      const tutorialSteps = resourceManager.tutorial && resourceManager.tutorial.steps;
-      if (tutorialSteps) {
-        resourceManager.tutorial.steps = tutorialSteps;
-      }
     }
   }
 
@@ -73,7 +67,7 @@ export default class Game extends React.Component {
 
     return <div id='game'>
       <div id='title'>{this.props.resourceManager.name}</div>
-      <div id='version' className={this.state.upgraded ? 'upgraded' : ''}>v{this.props.resourceManager.version}</div>
+      <div id='version' className={this.state.upgraded ? 'upgraded' : 'x'}>v{this.props.resourceManager.version}</div>
 
       <Tutorial
         resourceManager={this.props.resourceManager}
