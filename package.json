@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack --progress --colors -p",
-    "start": "webpack-dev-server -d -w --quiet --hot --host 0.0.0.0 --public sim-pouya.codeanyapp.com:8080 --content-base dist/"
+    "start": "webpack-dev-server -d -w --progress --colors --hot --devtool eval --host 0.0.0.0 --public sim-pouya.codeanyapp.com:8080 --content-base dist/"
   },
   "jest": {
     "moduleFileExtensions": [
