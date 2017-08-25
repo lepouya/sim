@@ -61,13 +61,22 @@ const game = {
               "Also buy some supplies from the market to put the whole thing together<br/>" +
               "Go ahead and build one now",
         post: {'wood shed': 1},
-        prize: {coin: 10, wood: 5},
+        prize: {coin: 10, wood: 5, stone: 5},
         button: "I have built my masterpiece!",
       },
       {
         text: "Nice! The storage limit for your wood doubled now!<br/>" +
               "With every new shed you make, you get better at it and can build a bigger and better one that stores " + 
-              "twice as much as before! But it will also cost more to build. You know, because it's bigger and better",
+              "twice as much as before! But it will also cost more to build. You know, because it's bigger and better<br/>" +
+              "<br/>Now, go ahead and build a place to store more stone. You might need to first dig out 10 pieces of stone before the dump unlocks",
+        post: {'stone dump': 1},
+        prize: {coin: 10, wood: 5, stone: 5},
+        button: "I have built another masterpiece!",
+      },
+      {
+        text: "Nice! The storage limit for your stone doubled now!<br/>" +
+              "Maybe we should get some villagers to just axe wood and dig rocks for us?<br/>" +
+              "I mean, this is all about world domination after all!",
       },
       {
         text: "That's all the tutorial I have made so far. Next time you come back you might actually have to reset the game",
@@ -93,7 +102,7 @@ const game = {
           title: 'Stone',
           primary: 'stone',
           items: [
-            {items: ['stone']},
+            {items: ['stone', 'stone dump']},
           ],
         },
       ]
@@ -142,7 +151,7 @@ const game = {
       display: {buy: 'Dig'},
     },
     'wood shed': {
-      description: "A place to store the pieces of wood you've chopped.<br/>" +
+      description: "A place to store the pieces of wood you've chopped<br/>" +
                    "Increases the maximum limit of wood",
       visible: false,
       requirement: [{entity: 'wood', baseRate: 10}],
@@ -154,6 +163,26 @@ const game = {
       purchaseGrowth: ['*2'],
       setsLimitFor: [{
         entity: 'wood',
+        bonuses: [ // 10 * 2^n
+          {growthFunction: 'exponential', coefficient: 2},
+          {growthFunction: 'multiplicative', coefficient: 10},
+        ]
+      }],
+      display: {buy: 'Build'},
+    },
+    'stone dump': {
+      description: "A place to store all the stone you've dug<br/>" +
+                   "Increases the maximum limit of stone",
+      visible: false,
+      requirement: [{entity: 'stone', baseRate: 10}],
+      price: [
+        {entity: 'coin', baseRate: 10},
+        {entity: 'stone', baseRate: 10},
+        {entity: 'wood', baseRate: 5},
+      ],
+      purchaseGrowth: ['*2'],
+      setsLimitFor: [{
+        entity: 'stone',
         bonuses: [ // 10 * 2^n
           {growthFunction: 'exponential', coefficient: 2},
           {growthFunction: 'multiplicative', coefficient: 10},
