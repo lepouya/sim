@@ -186,7 +186,7 @@ export default class ResourceManager extends Entity {
       for (let n in v.resources) {
         const res = v.resources[n];
         if (n !== undefined) {
-          ret.resources[n] = {count: res.count};
+          ret.resources[n] = {count: res.count, visible: res.visible, unlocked: res.unlocked};
         }
       }
 
@@ -242,7 +242,9 @@ export default class ResourceManager extends Entity {
       if (v.resources && obj.resources) {
         for (let n in v.resources) {
           if (v.resources[n] && obj.resources[n]) {
-            v.resources[n].count = obj.resources[n].count;
+            v.resources[n].count = obj.resources[n].count || v.resources[n].count;
+            v.resources[n].visible = obj.resources[n].visible || v.resources[n].visible;
+            v.resources[n].unlocked = obj.resources[n].unlocked || v.resources[n].unlocked;
           }
         }
       }
