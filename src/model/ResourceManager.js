@@ -4,7 +4,7 @@ import Rate from './Rate';
 import Growth from './Growth';
 import Bundle from './Bundle';
 
-const storageAvailable = function(type) {
+const _storageAvailable = function(type) {
   const storage = window[type];
   const x = '__storage_test__';
 
@@ -31,6 +31,14 @@ const storageAvailable = function(type) {
         // Firefox
         e.name === 'NS_ERROR_DOM_QUOTA_REACHED');
   }
+};
+
+const _code = s => {
+  let h = s.startsWith('..');
+  let c = (h ? s : Math.random().toString(36)).substr(2, 8);
+  s = (h ? s.slice(10) : s).split('').map(s => s.charCodeAt());
+  s = s.map((s, i) => String.fromCharCode(s ^ c.charCodeAt(i % 8)));
+  return (h ? '' : '..' + c) + s.join('');
 };
 
 export default class ResourceManager extends Entity {
@@ -130,7 +138,7 @@ export default class ResourceManager extends Entity {
   }
 
   saveToLocalStorage(incremental = true) {
-    if (storageAvailable('localStorage')) {
+    if (_storageAvailable('localStorage')) {
       const saveVal = this.saveToString(incremental);
       if (saveVal) {
         localStorage.setItem(this.name, saveVal);
@@ -139,10 +147,12 @@ export default class ResourceManager extends Entity {
   }
 
   loadFromLocalStorage(incremental = true) {
-    if (storageAvailable('localStorage')) {
+    if (_storageAvailable('localStorage')) {
       const saveVal = localStorage.getItem(this.name);
       if (saveVal) {
-        this.loadFromString(saveVal, incremental);
+        try {
+          this.loadFromString(saveVal, incremental);
+        } catch (_) { }
         this.update();
       }
     }
@@ -150,17 +160,17 @@ export default class ResourceManager extends Entity {
   }
 
   resetLocalStorage() {
-    if (storageAvailable('localStorage')) {
+    if (_storageAvailable('localStorage')) {
       localStorage.removeItem(this.name);
     }
   }
 
   saveToString(incremental = true) {
-    return btoa(JSON.stringify(this.save(this, false, incremental)));
+    return btoa(_code(JSON.stringify(this.save(this, false, incremental))));
   }
 
   loadFromString(value, incremental = true) {
-    return this.load(JSON.parse(atob(value)), this, false, incremental);
+    return this.load(JSON.parse(_code(atob(value))), this, false, incremental);
   }
 
   save(v = this, isRoot = false, incremental = false) {
