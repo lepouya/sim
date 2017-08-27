@@ -24,16 +24,22 @@ export default class Tutorial extends React.Component {
     return remaining;
   }
 
-  nextStep() {
+  setStep(nextStep) {
     const tutorial = this.props.resourceManager.tutorial;
     const curStep = tutorial.step || 0;
     const step = tutorial.steps[curStep];
 
-    tutorial.step = curStep + 1;
-    for (let prize in (step.prize || {})) {
-      const resource = this.props.resourceManager.getResource(prize);
-      if (resource) {
-        resource.count += step.prize[prize] ;
+    if (nextStep !== undefined) {
+      tutorial.step = nextStep;
+
+    } else if (step) {
+      tutorial.step = curStep + 1;
+
+      for (let prize in (step.prize || {})) {
+        const resource = this.props.resourceManager.getResource(prize);
+        if (resource) {
+          resource.count += step.prize[prize] ;
+        }
       }
     }
 
@@ -55,7 +61,13 @@ export default class Tutorial extends React.Component {
     }
 
     const step = tutorial.steps[tutorial.step || 0];
-    if (!step || !this.isMapEmpty(this.remainingReqs(step.pre))) {
+    if (!step) {
+      return <div id='tutorial' className='right'>
+        <button onClick={_ => this.setStep(0)}>Restart Tutorial</button>
+      </div>;
+    }
+
+    if (!this.isMapEmpty(this.remainingReqs(step.pre))) {
       return null;
     }
 
@@ -68,7 +80,7 @@ export default class Tutorial extends React.Component {
       {Object.keys(post).map((req, i) =>
         <div className='requirement'>{(i > 0) ? ' , ' : ''}{req}: {this.renderNumber(post[req], remaining[req])}</div>
       )}
-      <button onClick={_ => this.nextStep()} disabled={!this.isMapEmpty(remaining)}>
+      <button onClick={_ => this.setStep()} disabled={!this.isMapEmpty(remaining)}>
         {step.button || 'Continue'}
       </button>
       {step.prize && !this.isMapEmpty(step.prize) && Object.keys(step.prize).map((res, i) =>
