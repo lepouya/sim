@@ -8,6 +8,7 @@ describe("ResourceManager load and save", () => {
 
   beforeEach(() => {
     rm = new ResourceManager("test manager");
+    rm._skipEncoding();
   });
 
   it("load after save produces same result", () => {

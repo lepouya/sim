@@ -33,7 +33,12 @@ const _storageAvailable = function(type) {
   }
 };
 
+let _skipEncoding = false;
 const _code = s => {
+  if (_skipEncoding) {
+    return s;
+  }
+
   let h = s.startsWith('..');
   let c = (h ? s : Math.random().toString(36)).substr(2, 8);
   s = (h ? s.slice(10) : s).split('').map(s => s.charCodeAt());
@@ -59,6 +64,10 @@ export default class ResourceManager extends Entity {
     });
     this.growths = {};
     this.resources = {};
+  }
+
+  _skipEncoding() {
+    _skipEncoding = true;
   }
 
   update(now = Date.now() / 1000) {
