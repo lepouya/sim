@@ -27,15 +27,15 @@ module.exports = {
   },
 
   module: {
-    loaders: [{
+    rules: [{
         test: /\.jsx?$/,
-        loader: 'babel-loader',
+        use: 'babel-loader',
         include: /src/,
         exclude: /node_modules/,
       },
       {
         test: /\.(less|css)/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'less-loader']),
+        use: ExtractTextPlugin.extract(['css-loader', 'less-loader']),
       },
     ]
   },
