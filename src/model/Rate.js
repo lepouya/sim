@@ -6,11 +6,14 @@ export default class Rate extends Entity {
       entity,
       baseRate,
       bonuses,
-      doNotSpend
+      doNotSpend,
     });
   }
 
   get value() {
-    return this.bonuses.reduce((accum, bonus) => bonus.getValue(accum), this.baseRate);
+    return this.bonuses.reduce(
+      (accum, bonus) => bonus.getValue(accum),
+      this.baseRate,
+    );
   }
 }

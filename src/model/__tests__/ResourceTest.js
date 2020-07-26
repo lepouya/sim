@@ -106,7 +106,8 @@ describe("Resource Trading", () => {
   });
 
   it("Buy a resource", () => {
-    res.addPrice(rA.withRate(10))
+    res
+      .addPrice(rA.withRate(10))
       .addPrice(rB.withRate(10))
       .addPrice(rC.withRate(2));
 
@@ -118,7 +119,8 @@ describe("Resource Trading", () => {
   });
 
   it("Can't buy more than current resources", () => {
-    res.withCount(9)
+    res
+      .withCount(9)
       .withLimit(undefined)
       .addPrice(rA.withRate(10))
       .addPrice(rB.withRate(10))
@@ -140,7 +142,8 @@ describe("Resource Trading", () => {
   });
 
   it("Can't buy past the cap", () => {
-    res.withCount(8)
+    res
+      .withCount(8)
       .addPrice(rA.withRate(5))
       .addPrice(rB.withRate(5))
       .addPrice(rC.withRate(1));
@@ -157,7 +160,8 @@ describe("Resource Trading", () => {
   });
 
   it("Purchase price grows", () => {
-    res.addPurchaseGrowth(markUp)
+    res
+      .addPurchaseGrowth(markUp)
       .addPrice(rA.withRate(5))
       .addPrice(rB.withRate(5))
       .addPrice(rC.withRate(1));
@@ -179,7 +183,8 @@ describe("Resource Trading", () => {
   });
 
   it("Sell a resource", () => {
-    res.withCount(2)
+    res
+      .withCount(2)
       .addPrice(rA.withRate(5))
       .addPrice(rB.withRate(5))
       .addPrice(rC.withRate(1))
@@ -193,7 +198,8 @@ describe("Resource Trading", () => {
   });
 
   it("Can't oversell a resource", () => {
-    res.withCount(1)
+    res
+      .withCount(1)
       .addPrice(rA.withRate(5))
       .addPrice(rB.withRate(5))
       .addPrice(rC.withRate(1))
@@ -208,7 +214,8 @@ describe("Resource Trading", () => {
   });
 
   it("Selling doesn't give more resources than cap", () => {
-    res.withCount(2)
+    res
+      .withCount(2)
       .addPrice(rA.withRate(5))
       .addPrice(rB.withRate(5))
       .addPrice(rC.withRate(1))
@@ -223,7 +230,8 @@ describe("Resource Trading", () => {
   });
 
   it("Sale price mark down works", () => {
-    res.withCount(2)
+    res
+      .withCount(2)
       .addPrice(rA.withRate(5))
       .addPrice(rB.withRate(5))
       .addPrice(rC.withRate(1))
@@ -291,7 +299,10 @@ describe("Resource Generation", () => {
     rB = new Resource("B", "B", 20, 25);
     rC = new Resource("C", "C", 5, 10);
     markUp = new Growth("double", "multiplicative", 2);
-    gen = new Resource("gen").withRequirement([]).withPrice([]).withSellModifier([]);
+    gen = new Resource("gen")
+      .withRequirement([])
+      .withPrice([])
+      .withSellModifier([]);
   });
 
   it("no generation", () => {
@@ -344,10 +355,7 @@ describe("Resource Generation", () => {
   });
 
   it("can't consume more than there is", () => {
-    gen
-      .withCount(4)
-      .addInputRate(rC.withRate(1))
-      .addOutputRate(rA.withRate(1));
+    gen.withCount(4).addInputRate(rC.withRate(1)).addOutputRate(rA.withRate(1));
 
     gen.update(0.5);
     expect(rA.count).toBeCloseTo(100 + 2);
@@ -406,7 +414,9 @@ describe("Resource upgrading", () => {
   it("Updates the count", () => {
     expect(rA.count).toBe(100);
 
-    rB.addSetsCountFor(rA.withRate(0, [new Growth("g1", "multiplicative", 4, 1)]));
+    rB.addSetsCountFor(
+      rA.withRate(0, [new Growth("g1", "multiplicative", 4, 1)]),
+    );
     rB.update();
     expect(rA.count).toBe(80);
 
@@ -420,7 +430,12 @@ describe("Resource upgrading", () => {
   it("Updates the limit", () => {
     expect(rB.limit).toBe(50);
 
-    rC.addSetsLimitFor(rB.withRate(0, [new Growth("g2", "exponential", 2, 1), new Growth("g1", "multiplicative", 10, 1)]));
+    rC.addSetsLimitFor(
+      rB.withRate(0, [
+        new Growth("g2", "exponential", 2, 1),
+        new Growth("g1", "multiplicative", 10, 1),
+      ]),
+    );
     rC.update();
     expect(rB.limit).toBe(10);
 

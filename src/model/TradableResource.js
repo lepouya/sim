@@ -26,7 +26,11 @@ export default class TradableResource extends UsableResource {
       }
 
       if (p > 0) {
-        res.push({entity: rate.entity, value: p, doNotSpend: rate.doNotSpend});
+        res.push({
+          entity: rate.entity,
+          value: p,
+          doNotSpend: rate.doNotSpend,
+        });
       }
     }
 
@@ -34,7 +38,11 @@ export default class TradableResource extends UsableResource {
   }
 
   getBuyPrice() {
-    if (!this.unlocked || !this.price || (this.limit && (this._count >= this.limit))) {
+    if (
+      !this.unlocked ||
+      !this.price ||
+      (this.limit && this._count >= this.limit)
+    ) {
       return;
     }
 
@@ -42,7 +50,12 @@ export default class TradableResource extends UsableResource {
   }
 
   getSellPrice() {
-    if (!this.unlocked || !this.price || !this.sellModifier || (this._count < 1)) {
+    if (
+      !this.unlocked ||
+      !this.price ||
+      !this.sellModifier ||
+      this._count < 1
+    ) {
       return;
     }
 

@@ -1,9 +1,9 @@
-import '../styles/tutorial';
-import React from 'react';
+import "../styles/tutorial";
+import React from "react";
 
 export default class Tutorial extends React.Component {
   isMapEmpty(map) {
-    return (Object.keys(map).length === 0);
+    return Object.keys(map).length === 0;
   }
 
   remainingReqs(reqs) {
@@ -13,9 +13,9 @@ export default class Tutorial extends React.Component {
     }
 
     for (let req in reqs) {
-      if (req && (reqs[req] > 0)) {
+      if (req && reqs[req] > 0) {
         const resource = this.props.resourceManager.getResource(req);
-        if (resource && (resource.count < reqs[req])) {
+        if (resource && resource.count < reqs[req]) {
           remaining[req] = reqs[req] - resource.count;
         }
       }
@@ -31,14 +31,13 @@ export default class Tutorial extends React.Component {
 
     if (nextStep !== undefined) {
       tutorial.step = nextStep;
-
     } else if (step) {
       tutorial.step = curStep + 1;
 
-      for (let prize in (step.prize || {})) {
+      for (let prize in step.prize || {}) {
         const resource = this.props.resourceManager.getResource(prize);
         if (resource) {
-          resource.count += step.prize[prize] ;
+          resource.count += step.prize[prize];
         }
       }
     }
@@ -47,11 +46,13 @@ export default class Tutorial extends React.Component {
   }
 
   renderNumber(value, remaining) {
-    const num = (value || 0)
-    const rem = (remaining || 0);
-    return <span className={(rem > 0) ? 'negative' : 'positive'}>
-      {(num - rem).toFixed()} / {num.toFixed()}
-    </span>;
+    const num = value || 0;
+    const rem = remaining || 0;
+    return (
+      <span className={rem > 0 ? "negative" : "positive"}>
+        {(num - rem).toFixed()} / {num.toFixed()}
+      </span>
+    );
   }
 
   render() {
@@ -62,9 +63,11 @@ export default class Tutorial extends React.Component {
 
     const step = tutorial.steps[tutorial.step || 0];
     if (!step) {
-      return <div id='tutorial' className='right'>
-        <button onClick={_ => this.setStep(0)}>Restart Tutorial</button>
-      </div>;
+      return (
+        <div id="tutorial" className="right">
+          <button onClick={(_) => this.setStep(0)}>Restart Tutorial</button>
+        </div>
+      );
     }
 
     if (!this.isMapEmpty(this.remainingReqs(step.pre))) {
@@ -74,20 +77,34 @@ export default class Tutorial extends React.Component {
     const post = step.post || {};
     const remaining = this.remainingReqs(post);
 
-    return <div id='tutorial' className='bundle'>
-      <div className='name'>Tutorial</div>
-      <div className='text' dangerouslySetInnerHTML={{__html: step.text || ''}} />
-      {Object.keys(post).map((req, i) =>
-        <div className='requirement'>{(i > 0) ? ' , ' : ''}{req}: {this.renderNumber(post[req], remaining[req])}</div>
-      )}
-      <button onClick={_ => this.setStep()} disabled={!this.isMapEmpty(remaining)}>
-        {step.button || 'Continue'}
-      </button>
-      {step.prize && !this.isMapEmpty(step.prize) && Object.keys(step.prize).map((res, i) =>
-        <div className='requirement'>
-          {(i > 0) ? ' , ' : 'Upon completion, rewards '}{step.prize[res]} {res}
-        </div>
-      )}
-    </div>;
+    return (
+      <div id="tutorial" className="bundle">
+        <div className="name">Tutorial</div>
+        <div
+          className="text"
+          dangerouslySetInnerHTML={{ __html: step.text || "" }}
+        />
+        {Object.keys(post).map((req, i) => (
+          <div className="requirement">
+            {i > 0 ? " , " : ""}
+            {req}: {this.renderNumber(post[req], remaining[req])}
+          </div>
+        ))}
+        <button
+          onClick={(_) => this.setStep()}
+          disabled={!this.isMapEmpty(remaining)}
+        >
+          {step.button || "Continue"}
+        </button>
+        {step.prize &&
+          !this.isMapEmpty(step.prize) &&
+          Object.keys(step.prize).map((res, i) => (
+            <div className="requirement">
+              {i > 0 ? " , " : "Upon completion, rewards "}
+              {step.prize[res]} {res}
+            </div>
+          ))}
+      </div>
+    );
   }
 }

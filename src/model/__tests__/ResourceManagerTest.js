@@ -19,10 +19,15 @@ describe("ResourceManager load and save", () => {
 
     const rA = rm.addResource("A").withCount(100);
     const rB = rm.addResource("B", "B", 20, 25, false);
-    const rC = rm.addResource("C", "C", 5)
-      .withRequirement([rA.withRate(10, [bonusP]), rB.withRate(1, [bonusP, bonusL])]);
+    const rC = rm
+      .addResource("C", "C", 5)
+      .withRequirement([
+        rA.withRate(10, [bonusP]),
+        rB.withRate(1, [bonusP, bonusL]),
+      ]);
 
-    const rD = rm.addResource("D")
+    const rD = rm
+      .addResource("D")
       .withCount(0)
       .addPrice(rA.withRate(10, [bonusL]))
       .addPrice(rB.withRate(5))
@@ -30,7 +35,8 @@ describe("ResourceManager load and save", () => {
       .addPurchaseGrowth(markUp)
       .addSellModifier(markDown);
 
-    const rE = rm.addResource("E")
+    const rE = rm
+      .addResource("E")
       .withCount(0)
       .addInputRate(rA.withRate(1))
       .addOutputRate(rB.withRate(4))
@@ -38,16 +44,22 @@ describe("ResourceManager load and save", () => {
       .addInputRateGrowth(bonusL)
       .addOutputRateGrowth(bonusP);
 
-    rC.addSetsLimitFor(rB.withRate(0, [new Growth("g2", "exponential", 2, 1),
-                                       new Growth("g1", "multiplicative", 10, 1)]));
-    rC.addSetsLimitFor(rE.withRate(0, [new Growth("g1", "multiplicative", 4, 1)]));
+    rC.addSetsLimitFor(
+      rB.withRate(0, [
+        new Growth("g2", "exponential", 2, 1),
+        new Growth("g1", "multiplicative", 10, 1),
+      ]),
+    );
+    rC.addSetsLimitFor(
+      rE.withRate(0, [new Growth("g1", "multiplicative", 4, 1)]),
+    );
     rB.addSetsTierFor(markUp.withRate(0));
 
-    rm.addTab('Empty Tab');
-    rm.addTab('Stuff', rA)
-      .withBundle('A', rA)
-      .withBundle('B|C', rB, [rB, rC])
-      .withBundle('D | E', undefined, [rD, rE]);
+    rm.addTab("Empty Tab");
+    rm.addTab("Stuff", rA)
+      .withBundle("A", rA)
+      .withBundle("B|C", rB, [rB, rC])
+      .withBundle("D | E", undefined, [rD, rE]);
 
     const save = rm.saveToString(false);
     const load = new ResourceManager().loadFromString(save, false);

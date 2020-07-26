@@ -13,7 +13,9 @@ export default class GeneratorResource extends TradableResource {
   }
 
   _getValues(items, init) {
-    return items ? items.reduce((accum, item) => item.getValue(accum), init) : init;
+    return items
+      ? items.reduce((accum, item) => item.getValue(accum), init)
+      : init;
   }
 
   get genRate() {
@@ -21,13 +23,15 @@ export default class GeneratorResource extends TradableResource {
   }
 
   update(ticks, now) {
-    if (!super.update(ticks, now) || (ticks <= 0)) {
+    if (!super.update(ticks, now) || ticks <= 0) {
       return false;
     }
 
     this._genRate = [];
-    if ((this._count <= 0) ||
-        ((this.inputRate.length === 0) && (this.outputRate.length === 0))) {
+    if (
+      this._count <= 0 ||
+      (this.inputRate.length === 0 && this.outputRate.length === 0)
+    ) {
       return false;
     }
 
@@ -45,7 +49,7 @@ export default class GeneratorResource extends TradableResource {
     }
 
     // Find out the max you should produce
-    let producing = (this.outputRate.length > 0) ? 0 : spending;
+    let producing = this.outputRate.length > 0 ? 0 : spending;
     for (let rate of this.outputRate) {
       if (!rate.entity.limit) {
         producing = spending;
@@ -71,11 +75,11 @@ export default class GeneratorResource extends TradableResource {
     // Consume the input resources
     for (let rate of this.inputRate) {
       let p = this._getValues(this.inputRateGrowth, rate.value);
-      if (!rate.doNotSpend && (p !== 0)) {
+      if (!rate.doNotSpend && p !== 0) {
         rate.entity.count -= p * sigTicks;
         this._genRate.push({
           entity: rate.entity,
-          value: -p * sigTicks / ticks
+          value: (-p * sigTicks) / ticks,
         });
       }
     }
@@ -87,7 +91,7 @@ export default class GeneratorResource extends TradableResource {
         rate.entity.count += p * sigTicks;
         this._genRate.push({
           entity: rate.entity,
-          value: p * sigTicks / ticks
+          value: (p * sigTicks) / ticks,
         });
       }
     }

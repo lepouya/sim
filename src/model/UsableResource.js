@@ -17,8 +17,9 @@ export default class UsableResource extends LockableResource {
 
     // Set all the derivatives for count/limit/tier
     for (let rate of this.setsCountFor) {
-      rate.entity
-        .withCount(Math.floor(rate.withBaseRate(Math.floor(this._count)).value));
+      rate.entity.withCount(
+        Math.floor(rate.withBaseRate(Math.floor(this._count)).value),
+      );
     }
 
     for (let rate of this.setsLimitFor) {
@@ -28,8 +29,9 @@ export default class UsableResource extends LockableResource {
     }
 
     for (let rate of this.setsTierFor) {
-      rate.entity
-        .withTier(Math.floor(rate.withBaseRate(Math.floor(this._count)).value));
+      rate.entity.withTier(
+        Math.floor(rate.withBaseRate(Math.floor(this._count)).value),
+      );
     }
 
     return true;

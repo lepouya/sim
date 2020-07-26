@@ -1,13 +1,18 @@
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-    <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
-    <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
-    <% } %>
-    <% for (var css in htmlWebpackPlugin.files.css) { %>
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[css] %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
+    ></script>
+    <% for (var js in htmlWebpackPlugin.files.js) { %>
+    <script src="<%= htmlWebpackPlugin.files.js[js] %>"></script>
+    <% } %> <% for (var css in htmlWebpackPlugin.files.css) { %>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[css] %>" />
     <% } %>
   </head>
   <body>

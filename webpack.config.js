@@ -1,49 +1,50 @@
-const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   context: __dirname,
 
   entry: {
-    'sim': './src/index.jsx',
+    sim: "./src/index.jsx",
   },
 
   output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "[name].js",
+    path: path.resolve(__dirname, "dist"),
   },
 
-  devtool: 'source-map',
+  devtool: "source-map",
 
   devServer: {
-    contentBase: 'dist/',
+    contentBase: "dist/",
     hot: true,
-    watchContentBase: true,    
+    watchContentBase: true,
   },
-  
+
   resolve: {
-    extensions: ['.jsx', '.js', '.less', '.css'],
+    extensions: [".jsx", ".js", ".less", ".css"],
   },
 
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.jsx?$/,
-        use: 'babel-loader',
+        use: "babel-loader",
         include: /src/,
         exclude: /node_modules/,
       },
       {
         test: /\.(less|css)/,
-        use: ExtractTextPlugin.extract(['css-loader', 'less-loader']),
+        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
       },
-    ]
+    ],
   },
 
   plugins: [
-    new ExtractTextPlugin('[name].css'),
+    new MiniCssExtractPlugin("[name].css"),
     new HtmlWebpackPlugin({
-      template: './src/index.ejs',
+      template: "./src/index.ejs",
       inject: false,
     }),
   ],
@@ -53,7 +54,7 @@ module.exports = {
   },
 
   externals: {
-    'react': 'React',
-    'react-dom': 'ReactDOM',
+    react: "React",
+    "react-dom": "ReactDOM",
   },
 };

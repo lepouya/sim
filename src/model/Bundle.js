@@ -14,7 +14,7 @@ export default class Bundle extends Entity {
     if (this.primary) {
       return this.primary.unlocked;
     } else if (this.items.length > 0) {
-      return this.items.findIndex(i => i.unlocked) >= 0;
+      return this.items.findIndex((i) => i.unlocked) >= 0;
     } else {
       return true;
     }
@@ -24,7 +24,7 @@ export default class Bundle extends Entity {
     if (this.primary) {
       return this.primary.visible;
     } else if (this.items.length > 0) {
-      return this.items.findIndex(i => i.visible) >= 0;
+      return this.items.findIndex((i) => i.visible) >= 0;
     } else {
       return true;
     }

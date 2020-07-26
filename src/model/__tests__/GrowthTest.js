@@ -27,7 +27,9 @@ describe("Growth", () => {
     expect(bonus.withTier(1).getValue(2)).toBeCloseTo(3.5);
     expect(bonus.withTier(3).getValue(10)).toBeCloseTo(14.5);
     expect(bonus.withCoefficient(5).getValue(0)).toBeCloseTo(15);
-    expect(bonus.withTier(2).withCoefficient(-0.1).getValue(10)).toBeCloseTo(9.8);
+    expect(bonus.withTier(2).withCoefficient(-0.1).getValue(10)).toBeCloseTo(
+      9.8,
+    );
   });
 
   it("percentage growth applies correctly", () => {
@@ -50,7 +52,9 @@ describe("Growth", () => {
     expect(bonus.withTier(1).getValue(2)).toBeCloseTo(2.2);
     expect(bonus.withTier(3).getValue(10)).toBeCloseTo(13.31);
     expect(bonus.withCoefficient(2).getValue(1)).toBeCloseTo(8);
-    expect(bonus.withTier(2).withCoefficient(0.5).getValue(1)).toBeCloseTo(0.25);
+    expect(bonus.withTier(2).withCoefficient(0.5).getValue(1)).toBeCloseTo(
+      0.25,
+    );
   });
 
   it("exponential growth applies correctly", () => {
@@ -60,7 +64,9 @@ describe("Growth", () => {
     expect(bonus.withTier(1).getValue(2)).toBeCloseTo(4);
     expect(bonus.withTier(3).getValue(10)).toBeCloseTo(Math.pow(2, 30));
     expect(bonus.withCoefficient(1.1).getValue(1)).toBeCloseTo(1.331);
-    expect(bonus.withTier(2).withCoefficient(0.5).getValue(1)).toBeCloseTo(0.25);
+    expect(bonus.withTier(2).withCoefficient(0.5).getValue(1)).toBeCloseTo(
+      0.25,
+    );
   });
 
   it("Loading and saving works correctly", () => {

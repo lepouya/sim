@@ -1,5 +1,5 @@
-import '../styles/save';
-import React from 'react';
+import "../styles/save";
+import React from "react";
 
 export default class Screen extends React.Component {
   constructor(props) {
@@ -16,12 +16,13 @@ export default class Screen extends React.Component {
       savedGame: resourceManager.saveToString(true),
       saveTime: new Date(resourceManager.timeStamp * 1000),
       updateGranularity: resourceManager.updateGranularity * 1000,
-    }
+    };
   }
 
   setTimer(e) {
     e.preventDefault();
-    this.state.resourceManager.updateGranularity = this.state.updateGranularity / 1000;
+    this.state.resourceManager.updateGranularity =
+      this.state.updateGranularity / 1000;
     this.props.game.componentWillUnmount();
     this.props.game.componentDidMount();
     this.props.game.save();
@@ -48,64 +49,79 @@ export default class Screen extends React.Component {
   render() {
     const game = this.props.game;
 
-    return <div id='saveScreen'>
-      <div className='bundle'>
-        <div className='name'>Update Interval</div>
-        <form onSubmit={this.setTimer}>
-          <p>
-            The update interval for the game is currently
-            every {game.props.resourceManager.updateGranularity * 1000} ms.
-            <br/>
-            If your game is lagging, try to set this interval to a higher value.
-            <br/>
-            Lower values are more accurate by also more CPU-intensive.
-          </p>
-          <p>
-            <input type='range' min='50' max='1000' step='50'
-              value={this.state.updateGranularity}
-              onChange={e => this.setState({updateGranularity: e.target.value})} />
-            {this.state.updateGranularity} ms
-          </p>
-          <input type='submit' value='Update' />
-        </form>
-      </div>
+    return (
+      <div id="saveScreen">
+        <div className="bundle">
+          <div className="name">Update Interval</div>
+          <form onSubmit={this.setTimer}>
+            <p>
+              The update interval for the game is currently every{" "}
+              {game.props.resourceManager.updateGranularity * 1000} ms.
+              <br />
+              If your game is lagging, try to set this interval to a higher
+              value.
+              <br />
+              Lower values are more accurate by also more CPU-intensive.
+            </p>
+            <p>
+              <input
+                type="range"
+                min="50"
+                max="1000"
+                step="50"
+                value={this.state.updateGranularity}
+                onChange={(e) =>
+                  this.setState({ updateGranularity: e.target.value })
+                }
+              />
+              {this.state.updateGranularity} ms
+            </p>
+            <input type="submit" value="Update" />
+          </form>
+        </div>
 
-      <div className='bundle'>
-        <div className='name'>Local Save</div>
-        <form onSubmit={this.save}>
-          <p>
-            Last local save was at {new Date(game.state.lastSave).toLocaleTimeString()}
-            <br/>
-            Game auto-saves every 10 seconds.
-          </p>
-          <input type='submit' value='Save now' />
-        </form>
-      </div>
+        <div className="bundle">
+          <div className="name">Local Save</div>
+          <form onSubmit={this.save}>
+            <p>
+              Last local save was at{" "}
+              {new Date(game.state.lastSave).toLocaleTimeString()}
+              <br />
+              Game auto-saves every 10 seconds.
+            </p>
+            <input type="submit" value="Save now" />
+          </form>
+        </div>
 
-      <div className='bundle'>
-        <div className='name'>External Save</div>
-        <form onSubmit={this.load}>
-          <p>
-            This is the game state as of {this.state.saveTime.toLocaleTimeString()}.
-            Store this in a safe place as a backup if you want to return to the state that the game was at this point.
-          </p>
-          <textarea
-            value={this.state.savedGame}
-            onChange={e => this.setState({savedGame: e.target.value})} />
-          <input type='submit' value='Load this state' />
-        </form>
-      </div>
+        <div className="bundle">
+          <div className="name">External Save</div>
+          <form onSubmit={this.load}>
+            <p>
+              This is the game state as of{" "}
+              {this.state.saveTime.toLocaleTimeString()}. Store this in a safe
+              place as a backup if you want to return to the state that the game
+              was at this point.
+            </p>
+            <textarea
+              value={this.state.savedGame}
+              onChange={(e) => this.setState({ savedGame: e.target.value })}
+            />
+            <input type="submit" value="Load this state" />
+          </form>
+        </div>
 
-      <div className='bundle'>
-        <div className='name'>Game Reset</div>
-        <form onSubmit={this.reset} className='warning'>
-          <p>
-            Warning: This will reset your entire game data to a clean state.
-            This cannot be undone. Make sure you save the game state above if you want to restore the current game.
-          </p>
-          <input type='submit' value='Reset & Reload' />
-        </form>
+        <div className="bundle">
+          <div className="name">Game Reset</div>
+          <form onSubmit={this.reset} className="warning">
+            <p>
+              Warning: This will reset your entire game data to a clean state.
+              This cannot be undone. Make sure you save the game state above if
+              you want to restore the current game.
+            </p>
+            <input type="submit" value="Reset & Reload" />
+          </form>
+        </div>
       </div>
-    </div>;
+    );
   }
 }

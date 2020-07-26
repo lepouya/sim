@@ -39,7 +39,7 @@ export default class BasicResource extends Entity {
   }
 
   update(ticks, now) {
-    if ((ticks < 0) || (now < this._lastUpdate)) {
+    if (ticks < 0 || now < this._lastUpdate) {
       return false;
     }
 
@@ -51,7 +51,8 @@ export default class BasicResource extends Entity {
     // Update the rate
     if (now >= this._lastUpdate + 1) {
       if (this._lastUpdate > 0) {
-        this._rate = (this._count - this._lastRateCount) / (now - this._lastUpdate);
+        this._rate =
+          (this._count - this._lastRateCount) / (now - this._lastUpdate);
       }
       this._lastUpdate = now;
       this._lastRateCount = this._count;
